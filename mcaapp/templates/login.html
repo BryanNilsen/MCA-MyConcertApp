@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Bangazon</title>
-    </head>
+{% extends 'base.html' %}
 
-    <body>
-        <h1>Login to Bangazon</h1>
+{% load staticfiles %}
 
-        <form id="login_form" method="post" action="{% url 'website:login' %}">
+{% block content %}
+        <h1>Login to MCA</h1>
+
+        <form id="login_form" method="post" action="{% url 'mcaapp:login' %}">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br />
@@ -17,5 +15,4 @@
             <input type="submit" value="submit" />
         </form>
 
-    </body>
-</html>
+{% endblock content %}

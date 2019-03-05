@@ -3,23 +3,30 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template import RequestContext
+from django.contrib import messages
 
-from website.forms import UserForm, ProductForm
-from website.models import Product
+# transaction -> if errors occur, the database is being rolled back
+from django.db import transaction
+
+from mcaapp.forms import UserForm, ProfileForm
+from mcaapp.models import Profile
+# from mcaap.forms import ProductForm
+
+
+# Create your views here
 
 def index(request):
     template_name = 'index.html'
     return render(request, template_name, {})
 
 
-# Create your views here.
+@transaction.atomic
 def register(request):
     '''Handles the creation of a new user for authentication
 
     Method arguments:
       request -- The full HTTP request object
     '''
-
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
     registered = False
@@ -28,25 +35,55 @@ def register(request):
     # on Django's built-in User model
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
+        profile_form = ProfileForm(request.POST)
 
-        if user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
-
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
             user.set_password(user.password)
             user.save()
 
+            user.profile.profile_photo = profile_form.cleaned_data.get('profile_photo')
+            user.profile.quote_lyrics = profile_form.cleaned_data.get('quote_lyrics')
+            user.profile.favorite_artist = profile_form.cleaned_data.get('favorite_artist')
+            user.profile.save()
+
             # Update our variable to tell the template registration was successful.
             registered = True
+
 
         return login_user(request)
 
     elif request.method == 'GET':
         user_form = UserForm()
+        profile_form = ProfileForm()
         template_name = 'register.html'
-        return render(request, template_name, {'user_form': user_form})
+        return render(request, template_name, {
+          'user_form': user_form,
+          'profile_form': profile_form
+          })
+
+
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return redirect('settings:profile')
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
 
 
 def login_user(request):
@@ -91,33 +128,27 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 
-def sell_product(request):
-    if request.method == 'GET':
-        product_form = ProductForm()
-        template_name = 'product/create.html'
-        return render(request, template_name, {'product_form': product_form})
+# def sell_product(request):
+#     if request.method == 'GET':
+#         product_form = ProductForm()
+#         template_name = 'product/create.html'
+#         return render(request, template_name, {'product_form': product_form})
 
-    elif request.method == 'POST':
-        form_data = request.POST
+#     elif request.method == 'POST':
+#         form_data = request.POST
 
-        p = Product(
-            seller = request.user,
-            title = form_data['title'],
-            description = form_data['description'],
-            price = form_data['price'],
-            quantity = form_data['quantity'],
-        )
-        p.save()
-        template_name = 'product/success.html'
-        return render(request, template_name, {})
+#         p = Product(
+#             seller = request.user,
+#             title = form_data['title'],
+#             description = form_data['description'],
+#             price = form_data['price'],
+#             quantity = form_data['quantity'],
+#         )
+#         p.save()
+#         template_name = 'product/success.html'
+#         return render(request, template_name, {})
 
-def list_products(request):
-    all_products = Product.objects.all()
-    template_name = 'product/list.html'
-    return render(request, template_name, {'products': all_products})
-
-
-
-
-
-
+# def list_products(request):
+#     all_products = Product.objects.all()
+#     template_name = 'product/list.html'
+#     return render(request, template_name, {'products': all_products})

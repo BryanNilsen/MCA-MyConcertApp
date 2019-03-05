@@ -1,0 +1,16 @@
+body {
+  margin: 0px;
+  background: gray;
+}
+
+nav {
+  padding: 10px;
+  background: black;
+  color: white;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
