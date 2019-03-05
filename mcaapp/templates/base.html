@@ -2,33 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{% static 'mcaapp/css/main.css' %}">
-        <title>MCA - My Concert App</title>
-    </head>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'mcaapp/css/main.css' %}">
+  <title>MCA - My Concert App</title>
+</head>
 
-    <body>
+<body>
 
-        {% block nav %}
-        {% if user.is_authenticated %}
-        <nav id="navigation" class="nav">
-            <a href="{% url 'mcaapp:index' %}" class="">MCA - My Concert App</a> || {{ user.username }} is signed in ||
-            <a href="{% url 'mcaapp:logout' %}">Logout</a>
-        </nav>
-        {% else %}
-        <nav id="navigation" class="nav">
-            <a href="{% url 'mcaapp:index' %}" class="logo">MCA - My Concert App</a> ||
-            <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
-        </nav>
-        {% endif %}
-        {% endblock nav %}
 
-      <div>
-        {% block content %}{% endblock content %}
-      </div>
+  {% if user.is_authenticated %}
+  <nav id="navigation" class="nav">
+    <a href="{% url 'mcaapp:index' %}" class="">MCA - My Concert App</a> || {{ user.username }} is signed in
+    <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
+  </nav>
+  {% else %}
+  <nav id="navigation" class="nav">
+    <a href="{% url 'mcaapp:index' %}" class="logo">MCA - My Concert App</a> ||
+    <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
+  </nav>
+  {% endif %}
 
-    </body>
+  <div>
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
 
 
 </html>

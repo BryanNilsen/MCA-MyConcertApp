@@ -4,6 +4,7 @@ body {
 }
 
 nav {
+  font-family: Arial, Helvetica, sans-serif;
   padding: 10px;
   background: black;
   color: white;
@@ -14,3 +15,14 @@ nav a {
   text-decoration: none;
 }
 
+nav a:hover {
+  color: red;
+}
+
+.btn {
+  background: gray;
+  color: white;
+  border: 1px solid white;
+  padding: 2px 5px;
+  font-size: .8em;
+}

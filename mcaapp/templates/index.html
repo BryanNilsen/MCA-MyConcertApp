@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
-
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
-    <h1>Welcome to MCA!</h1>
+<h1>Welcome to MCA!</h1>
 
-    {% if user.is_authenticated %}
-    <h1>MCA says... hello {{ user.username }}!</h1>
-    <!-- <div><a href="{% url 'mcaapp:profile' %}">Update Profile</a></div> -->
-    <p>Search for concerts</p>
-    <p>My Concerts</p>
+  {% if user.is_authenticated %}
+  <h1>MCA says... hello {{ user.username }}!</h1>
+  <!-- <div><a href="{% url 'mcaapp:profile' %}">Update Profile</a></div> -->
+  <p>Search for concerts</p>
 
-    {% else %}
-    <h1>Register or Log in </h1>
-    {% endif %}
+  {% include 'search/search.html'%}
+
+  <p>My Concerts</p>
+
+  {% else %}
+  <h1>Register or Log in </h1>
+
+
+  {% endif %}
 
 {% endblock content %}

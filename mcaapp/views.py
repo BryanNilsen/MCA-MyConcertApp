@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages
+import requests
 
 # transaction -> if errors occur, the database is being rolled back
 from django.db import transaction
@@ -152,3 +153,28 @@ def user_logout(request):
 #     all_products = Product.objects.all()
 #     template_name = 'product/list.html'
 #     return render(request, template_name, {'products': all_products})
+
+
+# @login_required
+# def search_results(request):
+
+#     template_name = 'search/search_results.html'
+
+#     query = request.GET.get('q', '')
+#     if query:
+#         # query example
+#         results = Product.objects.filter(title__icontains=query).distinct()
+#     else:
+#         results = []
+#     return render(request, template_name, {'results': results, 'query': query})
+
+
+
+def search(request):
+    user = {}
+    if 'username' in request.GET:
+        username = request.GET['username']
+        url = 'https://api.github.com/users/%s' % username
+        response = requests.get(url)
+        user = response.json()
+    return render(request, 'search/search_results.html', {'user': user})
