@@ -12,7 +12,7 @@
   {% if search_result.success %}
     {% for result in search_result.setlist %}
       <div class="search_card">
-        <h3>Artist: {{ result.artist.name }}</h3>
+        <h3>ID: {{ result.id }} - Artist: {{ result.artist.name }}</h3>
         <h4>Venue: {{ result.venue.name }}</h4>
         <h5>Date: {{ result.eventDate }}</h5>
         <button>add concert</button>

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages
+from django.conf import settings
 import requests
 
 # transaction -> if errors occur, the database is being rolled back
@@ -12,13 +13,17 @@ from django.db import transaction
 from mcaapp.forms import UserForm, ProfileForm
 from mcaapp.forms import ConcertSearchForm
 from mcaapp.models import Profile
-# from mcaap.forms import ProductForm
+from mcaapp.models import UserConcert
+from mcaapp.models import UserConcertMedia
 
 
 # Create your views here
 
 def index(request):
-    """search functionality in home page"""
+    """
+      main landing page for all users
+      includes search functionality
+    """
 
     template_name = 'index.html'
 
@@ -27,14 +32,13 @@ def index(request):
         form = ConcertSearchForm(request.GET)
         if form.is_valid():
             search_result = form.search()
-            print("Search Result", search_result)
     else:
         form = ConcertSearchForm()
-        print("HELLO!!!!!!!!!")
     return render(request, template_name, {'form': form, 'search_result': search_result})
 
 
 @transaction.atomic
+# transaction.atomic prevents a partial record being created in the database
 def register(request):
     '''Handles the creation of a new user for authentication
 
@@ -140,3 +144,51 @@ def user_logout(request):
     # Take the user back to the homepage. Is there a way to not hard code
     # in the URL in redirects?????
     return HttpResponseRedirect('/')
+
+def get_concert(concert_id):
+# API LOGIC HERE to PING API WITH CONCERT ID
+    url = 'https://api.setlist.fm/rest/1.0/setlist/{concert_id}'
+    headers = {
+      'x-api-key': settings.SETLIST_FM_API_KEY,
+      'Accept': 'application/json'
+      }
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:  # SUCCESS
+        result = response.json()
+        result['success'] = True
+    else:
+        result['success'] = False
+        if response.status_code == 404:  # NOT FOUND
+            result['message'] = 'No entry found'
+        else:
+            result['message'] = 'The Setlist API is not available at the moment. Please try again later.'
+    return result
+
+
+def concert_list(request):
+    """lists all current user concerts"""
+    user = request.user
+    concerts = UserConcert.objects.filter(user_id=user.id)
+
+    for concert in concerts:
+        setlistId = concert.concert_id
+        endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+        url = endpoint.format(setlistId=setlistId)
+        headers = {
+          'x-api-key': settings.SETLIST_FM_API_KEY,
+          'Accept': 'application/json'
+          }
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:  # SUCCESS
+            result = response.json()
+            result['success'] = True
+            # set the api results as a key on the concert object
+            concert.api = result
+
+    print("CONCERTS ALL INFO", concerts[0].notes)
+
+    template_name = 'concerts/list.html'
+
+    return render(request, template_name, {'concerts': concerts})

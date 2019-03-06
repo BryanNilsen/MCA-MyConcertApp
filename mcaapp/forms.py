@@ -18,8 +18,8 @@ class ProfileForm(forms.ModelForm):
     fields = ('profile_photo', 'quote_lyrics', 'favorite_artist')
 
 class ConcertSearchForm(forms.Form):
-    artistName = forms.CharField(max_length=100)
-    venueName = forms.CharField(max_length=100, required=False)
+    artistName = forms.CharField(max_length=100, label='Artist')
+    venueName = forms.CharField(max_length=100, required=False, label='Location (venue, city, or state)')
 
     def search(self):
         result = {}
@@ -32,6 +32,7 @@ class ConcertSearchForm(forms.Form):
           'Accept': 'application/json'
           }
         response = requests.get(url, headers=headers)
+
         if response.status_code == 200:  # SUCCESS
             result = response.json()
             result['success'] = True

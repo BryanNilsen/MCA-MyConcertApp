@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Concert List</h1>
+    <!-- the following will show if the user has added concerts -->
+    {% if concerts %}
+        <p>you have concerts </p>
+            {% for concert in concerts %}
+            <h1>{{concert.api.artist.name}}</h1>
+            <h2>{{concert.api.eventDate}}{{concert.api.venue.name}}</h2>
+            <p>{{concert.notes}}</p>
+            <p>Rating: {{concert.rating}} out of 11</p>
+            {% endfor%}
+
+    <!-- the following will show if the user has not added concerts -->
+    {% else %}
+        <p>you don't have any concerts</p>
+    {% endif%}
+
+{% endblock %}

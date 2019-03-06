@@ -9,6 +9,5 @@ urlpatterns = [
     url(r'^logout$', views.user_logout, name='logout'),
     url(r'^register$', views.register, name='register'),
     url(r'^profile$', views.update_profile, name='profile'),
-    # url(r'^sell$', views.sell_product, name='sell'),
-    # url(r'^products$', views.list_products, name='list_products'),
+    url(r'^concerts$', views.concert_list, name='concerts')
 ]
