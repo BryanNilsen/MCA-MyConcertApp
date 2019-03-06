@@ -58,3 +58,4 @@ migrations
 db.sqlite3-journal
 
 apidata/
+.env

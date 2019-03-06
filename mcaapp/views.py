@@ -10,6 +10,7 @@ import requests
 from django.db import transaction
 
 from mcaapp.forms import UserForm, ProfileForm
+from mcaapp.forms import ConcertSearchForm
 from mcaapp.models import Profile
 # from mcaap.forms import ProductForm
 
@@ -17,8 +18,20 @@ from mcaapp.models import Profile
 # Create your views here
 
 def index(request):
+    """search functionality in home page"""
+
     template_name = 'index.html'
-    return render(request, template_name, {})
+
+    search_result = {}
+    if 'artistName' in request.GET:
+        form = ConcertSearchForm(request.GET)
+        if form.is_valid():
+            search_result = form.search()
+            print("Search Result", search_result)
+    else:
+        form = ConcertSearchForm()
+        print("HELLO!!!!!!!!!")
+    return render(request, template_name, {'form': form, 'search_result': search_result})
 
 
 @transaction.atomic
@@ -127,54 +140,3 @@ def user_logout(request):
     # Take the user back to the homepage. Is there a way to not hard code
     # in the URL in redirects?????
     return HttpResponseRedirect('/')
-
-
-# def sell_product(request):
-#     if request.method == 'GET':
-#         product_form = ProductForm()
-#         template_name = 'product/create.html'
-#         return render(request, template_name, {'product_form': product_form})
-
-#     elif request.method == 'POST':
-#         form_data = request.POST
-
-#         p = Product(
-#             seller = request.user,
-#             title = form_data['title'],
-#             description = form_data['description'],
-#             price = form_data['price'],
-#             quantity = form_data['quantity'],
-#         )
-#         p.save()
-#         template_name = 'product/success.html'
-#         return render(request, template_name, {})
-
-# def list_products(request):
-#     all_products = Product.objects.all()
-#     template_name = 'product/list.html'
-#     return render(request, template_name, {'products': all_products})
-
-
-# @login_required
-# def search_results(request):
-
-#     template_name = 'search/search_results.html'
-
-#     query = request.GET.get('q', '')
-#     if query:
-#         # query example
-#         results = Product.objects.filter(title__icontains=query).distinct()
-#     else:
-#         results = []
-#     return render(request, template_name, {'results': results, 'query': query})
-
-
-
-def search(request):
-    user = {}
-    if 'username' in request.GET:
-        username = request.GET['username']
-        url = 'https://api.github.com/users/%s' % username
-        response = requests.get(url)
-        user = response.json()
-    return render(request, 'search/search_results.html', {'user': user})
