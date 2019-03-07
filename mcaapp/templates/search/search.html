@@ -1,8 +1,11 @@
 <h2>Search Concerts</h2>
 
 <form method="get">
-  {{ form.as_p }}
-  <button type="submit">search</button>
+  <table>
+  {% csrf_token %}
+  {{ form.as_table }}
+</table>
+<button type="submit">search</button>
 </form>
 
 
@@ -12,9 +15,10 @@
   {% if search_result.success %}
     {% for result in search_result.setlist %}
       <div class="search_card">
-        <h3>ID: {{ result.id }} - Artist: {{ result.artist.name }}</h3>
+        <h2>{{ result.artist.name }}</h2>
         <h4>Venue: {{ result.venue.name }}</h4>
         <h5>Date: {{ result.eventDate }}</h5>
+        <h5>id: {{ result.id }}</h5>
         <button>add concert</button>
       </div>
   {% endfor %}

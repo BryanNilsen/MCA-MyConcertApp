@@ -9,18 +9,27 @@
 </head>
 
 <body>
-
+<div class="banner">
   {% if user.is_authenticated %}
   <nav id="navigation" class="nav">
-    <a href="{% url 'mcaapp:index' %}" class="">MCA</a> - My Concert App || <a href="{% url 'mcaapp:profile' %}">{{ user.username }}</a> is signed in
+    <a href="{% url 'mcaapp:index' %}" class="">MCA</a>
+    - My Concert App ||
     <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
   </nav>
+  <div class="sub_nav">
+      <a href="{% url 'mcaapp:concerts' %}">my concerts</a>
+      <a href="{% url 'mcaapp:profile' %}">{{ user.username }}</a> is signed in
+  </div>
   {% else %}
   <nav id="navigation" class="nav">
     <a href="{% url 'mcaapp:index' %}" class="logo">MCA</a> - My Concert App ||
     <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
   </nav>
   {% endif %}
+  <p class="center">
+    <span class="banner_text">Your concert scrapbook</span>
+  </p>
+</div>
 
   <div>
     {% block content %}{% endblock %}

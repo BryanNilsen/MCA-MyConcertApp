@@ -5,7 +5,7 @@
 <h1>Welcome to MCA!</h1>
 
   {% if user.is_authenticated %}
-  <h1>MCA says... hello {{ user.username }}!</h1>
+  <h1>Search for a concert, {{ user.username }}!</h1>
   <!-- <div><a href="{% url 'mcaapp:profile' %}">Update Profile</a></div> -->
 
   {% include 'search/search.html'%}
