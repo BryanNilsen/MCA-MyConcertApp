@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 from mcaapp.models import Profile
+from mcaapp.models import UserConcert
 from django.conf import settings
 
 import requests
@@ -13,9 +14,14 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password', 'first_name', 'last_name')
 
 class ProfileForm(forms.ModelForm):
-  class Meta:
-    model = Profile
-    fields = ('profile_photo', 'quote_lyrics', 'favorite_artist')
+    class Meta:
+      model = Profile
+      fields = ('profile_photo', 'quote_lyrics', 'favorite_artist')
+
+class UserConcertForm(forms.ModelForm):
+    class Meta:
+      model = UserConcert
+      fields = ('notes', 'rating')
 
 class ConcertSearchForm(forms.Form):
     artistName = forms.CharField(max_length=100, label='Artist')

@@ -12,7 +12,7 @@ body {
 /* top banner */
 .banner {
   min-width: 400px;
-  min-height: 200px;
+  min-height: 250px;
   background-image: url( '/static/mcaapp/images/concert-banner.jpg' );
   background-size: cover;
 }

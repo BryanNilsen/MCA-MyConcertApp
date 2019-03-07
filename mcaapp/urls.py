@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,5 +10,7 @@ urlpatterns = [
     url(r'^logout$', views.user_logout, name='logout'),
     url(r'^register$', views.register, name='register'),
     url(r'^profile$', views.update_profile, name='profile'),
-    url(r'^concerts$', views.concert_list, name='concerts')
+    url(r'^concerts$', views.concert_list, name='concerts'),
+    path('concert_create/', views.concert_create, name='concert_create'),
+    path('concert_update/<int:user_concert_id>/', views.concert_update, name='concert_update'),
 ]

@@ -5,13 +5,19 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages
 from django.conf import settings
+# from django.urls import reverse
 import requests
 
 # transaction -> if errors occur, the database is being rolled back
 from django.db import transaction
 
-from mcaapp.forms import UserForm, ProfileForm
+# imported forms
+from mcaapp.forms import UserForm
+from mcaapp.forms import ProfileForm
 from mcaapp.forms import ConcertSearchForm
+from mcaapp.forms import UserConcertForm
+
+#  imported models
 from mcaapp.models import Profile
 from mcaapp.models import UserConcert
 from mcaapp.models import UserConcertMedia
@@ -20,10 +26,7 @@ from mcaapp.models import UserConcertMedia
 # Create your views here
 
 def index(request):
-    """
-      main landing page for all users
-      includes search functionality
-    """
+    ''' main landing page for all users / includes search functionality '''
 
     template_name = 'index.html'
 
@@ -187,8 +190,51 @@ def concert_list(request):
             # set the api results as a key on the concert object
             concert.api = result
 
-    print("CONCERTS ALL INFO", concerts[0].notes)
-
     template_name = 'concerts/list.html'
 
     return render(request, template_name, {'concerts': concerts})
+
+
+def concert_create(request):
+    ''' adds concert and redirects to update/edit form'''
+
+    if request.method == "POST":
+        user = request.user
+        print("USER", user)
+        concert_id = request.POST['concert_id']
+        print("CONCERT ID", concert_id)
+        new_concert = UserConcert(user=user.profile, concert_id=concert_id)
+        print("NEW CONCERT", new_concert)
+        new_concert.save()
+        user_concert_id = new_concert.id
+
+        return HttpResponseRedirect(reverse('mcaapp:concert_update', args=(user_concert_id,)))
+
+
+
+def concert_update(request, userConcert_id):
+    ''' displays form page and adds concert '''
+    # get the userconcert
+    # display form
+    # submit form to update data
+
+    template_name = 'concerts/update.html'
+    userConcert_to_be_edited = get_object_or_404(UserConcert, pk=userConcert_id)
+
+    print("HELLO", userConcert_id)
+
+    if request.method == "GET":
+        #No data submitted, create a blank form
+        form = UserConcertForm(instance=userConcert_to_be_edited)
+
+    if request.method == "POST":
+        updateForm = UserConcertForm(request.POST, instance=userConcert_to_be_edited)
+        updateForm.save()
+
+        print("YOU DID IT!!", userConcert_id)
+
+
+        return redirect('mcaapp:index')
+
+
+    return render(request, template_name, {'form': form})
