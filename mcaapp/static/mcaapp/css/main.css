@@ -1,16 +1,93 @@
 body {
   margin: 0px;
-  background: gray;
+  background: rgb(10, 10, 10);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+.center {
+  text-align: center;
+}
+
+/* top banner */
+.banner {
+  min-width: 400px;
+  min-height: 250px;
+  background-image: url( '/static/mcaapp/images/concert-banner.jpg' );
+  background-size: cover;
+}
+
+.banner a {
+  color: white;
+  text-decoration: none;
+  padding: 3px 5px;
+}
+
+.banner a:hover {
+  color: red;
+  text-decoration: underline;
+  text-underline-position: under;
+  background-color: black;
+}
+
+.banner_text {
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1.0);
+  font-size: 2em;
+}
+/* top navigation */
 nav {
   padding: 10px;
   background: black;
   color: white;
+  font-size: 1.5em;
+
 }
 
-nav a {
+/* sub navigation */
+.sub_nav {
+  text-align: right;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
   color: white;
-  text-decoration: none;
+  font-size: 1em
 }
 
+.btn {
+  background: gray;
+  color: white;
+  border: 1px solid white;
+  padding: 2px 5px;
+  font-size: .8em;
+}
+
+/* search results display */
+
+.search_card {
+  margin: auto;
+  width: 80%;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid black;
+  padding: 5px 10px;
+  background: rgb(8, 52, 75);
+  margin-bottom: 10px;
+  min-width: 400px;
+  border-radius: 5px;
+}
+
+.search_card h1 {
+  margin-top: 5px;
+  color: rgb(124, 209, 255);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
+}
+
+/* images */
+.user_icon {
+  margin: 0px 5px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  vertical-align: middle;
+}

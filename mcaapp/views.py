@@ -1,26 +1,49 @@
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.template import RequestContext
 from django.contrib import messages
+from django.conf import settings
+# from django.urls import reverse
+import requests
 
 # transaction -> if errors occur, the database is being rolled back
 from django.db import transaction
 
-from mcaapp.forms import UserForm, ProfileForm
+# imported forms
+from mcaapp.forms import UserForm
+from mcaapp.forms import UserUpdateForm
+from mcaapp.forms import ProfileForm
+from mcaapp.forms import ConcertSearchForm
+from mcaapp.forms import UserConcertForm
+
+#  imported models
+from django.contrib.auth.models import User
 from mcaapp.models import Profile
-# from mcaap.forms import ProductForm
+from mcaapp.models import UserConcert
+from mcaapp.models import UserConcertMedia
 
 
 # Create your views here
 
 def index(request):
+    ''' main landing page for all users / includes search functionality '''
+
     template_name = 'index.html'
-    return render(request, template_name, {})
+
+    search_result = {}
+    if 'artistName' in request.GET:
+        form = ConcertSearchForm(request.GET)
+        if form.is_valid():
+            search_result = form.search()
+    else:
+        form = ConcertSearchForm()
+    return render(request, template_name, {'form': form, 'search_result': search_result})
 
 
 @transaction.atomic
+# transaction.atomic prevents a partial record being created in the database
 def register(request):
     '''Handles the creation of a new user for authentication
 
@@ -45,7 +68,11 @@ def register(request):
             user.set_password(user.password)
             user.save()
 
-            user.profile.profile_photo = profile_form.cleaned_data.get('profile_photo')
+            file = None
+            if "profile_photo" in request.FILES:
+                file = request.FILES['profile_photo']
+
+            user.profile.profile_photo = file
             user.profile.quote_lyrics = profile_form.cleaned_data.get('quote_lyrics')
             user.profile.favorite_artist = profile_form.cleaned_data.get('favorite_artist')
             user.profile.save()
@@ -68,17 +95,41 @@ def register(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile = Profile.objects.get(pk=request.user.profile.id)
+        print("REQUEST.FILES", request.FILES)
+        print("REQUEST.POST", request.POST)
+
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return redirect('settings:profile')
-        else:
-            messages.error(request, _('Please correct the error below.'))
+            user = user_form.save()
+            user.save()
+            print("BOTH FORMS ARE VALID")
+
+            # if clear photo checkbox is ticked
+            if 'profile_photo-clear' in request.POST:
+                print("profile photo was cleared")
+                profile.profile_photo.delete()
+                profile.profile_photo = None
+
+            # if new file is uploaded, it will delete existing and then add new file
+            if 'profile_photo' in request.FILES:
+                print("profile photo was uploaded")
+                profile.profile_photo.delete()
+                file = request.FILES['profile_photo']
+                profile.profile_photo = file
+
+            profile.quote_lyrics = request.POST['quote_lyrics']
+            profile.favorite_artist = request.POST['favorite_artist']
+            profile.save()
+            # profile_form.save()
+
+            # messages.success(request, _('Your profile was successfully updated!'))
+            return HttpResponseRedirect(reverse('mcaapp:profile'))
+        # else:
+            # messages.error(request, _('Please correct the error below.'))
     else:
-        user_form = UserForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'profile.html', {
         'user_form': user_form,
@@ -127,28 +178,93 @@ def user_logout(request):
     # in the URL in redirects?????
     return HttpResponseRedirect('/')
 
+def get_concert(concert_id):
+# API LOGIC HERE to PING API WITH CONCERT ID
+    url = 'https://api.setlist.fm/rest/1.0/setlist/{concert_id}'
+    headers = {
+      'x-api-key': settings.SETLIST_FM_API_KEY,
+      'Accept': 'application/json'
+      }
+    response = requests.get(url, headers=headers)
 
-# def sell_product(request):
-#     if request.method == 'GET':
-#         product_form = ProductForm()
-#         template_name = 'product/create.html'
-#         return render(request, template_name, {'product_form': product_form})
+    if response.status_code == 200:  # SUCCESS
+        result = response.json()
+        result['success'] = True
+    else:
+        result['success'] = False
+        if response.status_code == 404:  # NOT FOUND
+            result['message'] = 'No entry found'
+        else:
+            result['message'] = 'The Setlist API is not available at the moment. Please try again later.'
+    return result
 
-#     elif request.method == 'POST':
-#         form_data = request.POST
 
-#         p = Product(
-#             seller = request.user,
-#             title = form_data['title'],
-#             description = form_data['description'],
-#             price = form_data['price'],
-#             quantity = form_data['quantity'],
-#         )
-#         p.save()
-#         template_name = 'product/success.html'
-#         return render(request, template_name, {})
+def concert_list(request):
+    """lists all current user concerts"""
+    user = request.user
+    concerts = UserConcert.objects.filter(user_id=user.id)
 
-# def list_products(request):
-#     all_products = Product.objects.all()
-#     template_name = 'product/list.html'
-#     return render(request, template_name, {'products': all_products})
+    for concert in concerts:
+        setlistId = concert.concert_id
+        endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+        url = endpoint.format(setlistId=setlistId)
+        headers = {
+          'x-api-key': settings.SETLIST_FM_API_KEY,
+          'Accept': 'application/json'
+          }
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:  # SUCCESS
+            result = response.json()
+            result['success'] = True
+            # set the api results as a key on the concert object
+            concert.api = result
+
+    template_name = 'concerts/list.html'
+
+    return render(request, template_name, {'concerts': concerts})
+
+
+def concert_create(request):
+    ''' adds concert and redirects to update/edit form'''
+
+    if request.method == "POST":
+        user = request.user
+        print("USER", user)
+        concert_id = request.POST['concert_id']
+        print("CONCERT ID", concert_id)
+        new_concert = UserConcert(user=user.profile, concert_id=concert_id)
+        print("NEW CONCERT", new_concert)
+        new_concert.save()
+        user_concert_id = new_concert.id
+
+        return HttpResponseRedirect(reverse('mcaapp:concert_update', args=(user_concert_id,)))
+
+
+
+def concert_update(request, userConcert_id):
+    ''' displays form page and adds concert '''
+    # get the userconcert
+    # display form
+    # submit form to update data
+
+    template_name = 'concerts/update.html'
+    userConcert_to_be_edited = get_object_or_404(UserConcert, pk=userConcert_id)
+
+    print("HELLO", userConcert_id)
+
+    if request.method == "GET":
+        #No data submitted, create a blank form
+        form = UserConcertForm(instance=userConcert_to_be_edited)
+
+    if request.method == "POST":
+        updateForm = UserConcertForm(request.POST, instance=userConcert_to_be_edited)
+        updateForm.save()
+
+        print("YOU DID IT!!", userConcert_id)
+
+
+        return redirect('mcaapp:index')
+
+
+    return render(request, template_name, {'form': form})

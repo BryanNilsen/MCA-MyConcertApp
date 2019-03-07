@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Concert Added</h1>
+<h2>Tell us about the show</h2>
+<form method="get">
+    {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit">search</button>
+</form>
+
+{% endblock %}

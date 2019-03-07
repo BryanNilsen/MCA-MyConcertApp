@@ -1,0 +1,36 @@
+<h2>Search Concerts</h2>
+
+<!-- search concerts from Setlist.fm -->
+<form method="get">
+  {% csrf_token %}
+  {{ form.as_p }}
+<button type="submit">search</button>
+</form>
+
+<!-- display search results -->
+{% if search_result %}
+  <hr>
+  <p>Results:</p>
+  {% if search_result.success %}
+    {% for result in search_result.setlist %}
+      <div class="search_card">
+        <h2>{{ result.artist.name }}</h2>
+        <h4>Venue: {{ result.venue.name }}</h4>
+        <h5>Date: {{ result.eventDate }}</h5>
+        <h5>id: {{ result.id }}</h5>
+
+        <!-- add concert to UserConcert table -->
+            <form method="post" action="{% url 'mcaapp:concert_create' %}">
+            {% csrf_token %}
+            <input type="hidden" name="concert_id" value={{result.id}}>
+            <button type="submit">add concert</button>
+          </form>
+
+      </div>
+  {% endfor %}
+
+  <!-- if there are no results -->
+  {% else %}
+    <p><em>{{ search_result.message }}</em></p>
+  {% endif %}
+{% endif %}
