@@ -25,7 +25,6 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-
 class UserConcert(models.Model):
   ''' joins the user with the concert attended and adds user notes and rating '''
 

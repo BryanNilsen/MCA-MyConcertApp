@@ -2,10 +2,9 @@
 {% load static %}
 
 {% block content %}
-<h1>Welcome to MCA!</h1>
 
   {% if user.is_authenticated %}
-  <h1>Search for a concert, {{ user.username }}!</h1>
+  <h1>Welcome back {{ user.username }}!</h1>
 
   {% include 'search/search.html'%}
 

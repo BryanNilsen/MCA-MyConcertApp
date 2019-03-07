@@ -63,6 +63,7 @@ nav {
   font-size: .8em;
 }
 
+/* search results display */
 
 .search_card {
   margin: auto;
@@ -80,4 +81,13 @@ nav {
   margin-top: 5px;
   color: rgb(124, 209, 255);
   text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
+}
+
+/* images */
+.user_icon {
+  margin: 0px 5px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  vertical-align: middle;
 }

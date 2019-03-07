@@ -1,7 +1,7 @@
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.template import RequestContext
 from django.contrib import messages
 from django.conf import settings
@@ -13,11 +13,13 @@ from django.db import transaction
 
 # imported forms
 from mcaapp.forms import UserForm
+from mcaapp.forms import UserUpdateForm
 from mcaapp.forms import ProfileForm
 from mcaapp.forms import ConcertSearchForm
 from mcaapp.forms import UserConcertForm
 
 #  imported models
+from django.contrib.auth.models import User
 from mcaapp.models import Profile
 from mcaapp.models import UserConcert
 from mcaapp.models import UserConcertMedia
@@ -66,7 +68,11 @@ def register(request):
             user.set_password(user.password)
             user.save()
 
-            user.profile.profile_photo = profile_form.cleaned_data.get('profile_photo')
+            file = None
+            if "profile_photo" in request.FILES:
+                file = request.FILES['profile_photo']
+
+            user.profile.profile_photo = file
             user.profile.quote_lyrics = profile_form.cleaned_data.get('quote_lyrics')
             user.profile.favorite_artist = profile_form.cleaned_data.get('favorite_artist')
             user.profile.save()
@@ -89,17 +95,41 @@ def register(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile = Profile.objects.get(pk=request.user.profile.id)
+        print("REQUEST.FILES", request.FILES)
+        print("REQUEST.POST", request.POST)
+
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return redirect('settings:profile')
-        else:
-            messages.error(request, _('Please correct the error below.'))
+            user = user_form.save()
+            user.save()
+            print("BOTH FORMS ARE VALID")
+
+            # if clear photo checkbox is ticked
+            if 'profile_photo-clear' in request.POST:
+                print("profile photo was cleared")
+                profile.profile_photo.delete()
+                profile.profile_photo = None
+
+            # if new file is uploaded, it will delete existing and then add new file
+            if 'profile_photo' in request.FILES:
+                print("profile photo was uploaded")
+                profile.profile_photo.delete()
+                file = request.FILES['profile_photo']
+                profile.profile_photo = file
+
+            profile.quote_lyrics = request.POST['quote_lyrics']
+            profile.favorite_artist = request.POST['favorite_artist']
+            profile.save()
+            # profile_form.save()
+
+            # messages.success(request, _('Your profile was successfully updated!'))
+            return HttpResponseRedirect(reverse('mcaapp:profile'))
+        # else:
+            # messages.error(request, _('Please correct the error below.'))
     else:
-        user_form = UserForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'profile.html', {
         'user_form': user_form,
