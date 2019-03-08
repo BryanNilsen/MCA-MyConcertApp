@@ -2,12 +2,19 @@
 {% load static %}
 
 {% block content %}
+
+{% if concert %}
+
 <h1>Concert Added</h1>
+<h2>{{ concertApi.artist.name }}</h2>
+
 <h2>Tell us about the show</h2>
-<form method="get">
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-  <button type="submit">search</button>
+  <button type="submit">submit</button>
 </form>
+
+{% endif %}
 
 {% endblock %}

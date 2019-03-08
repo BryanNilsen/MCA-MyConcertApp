@@ -1,6 +1,7 @@
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, reverse
 from django.template import RequestContext
 from django.contrib import messages
@@ -230,11 +231,8 @@ def concert_create(request):
 
     if request.method == "POST":
         user = request.user
-        print("USER", user)
         concert_id = request.POST['concert_id']
-        print("CONCERT ID", concert_id)
         new_concert = UserConcert(user=user.profile, concert_id=concert_id)
-        print("NEW CONCERT", new_concert)
         new_concert.save()
         user_concert_id = new_concert.id
 
@@ -242,29 +240,37 @@ def concert_create(request):
 
 
 
-def concert_update(request, userConcert_id):
-    ''' displays form page and adds concert '''
-    # get the userconcert
-    # display form
-    # submit form to update data
+def concert_update(request, user_concert_id):
+    ''' displays form page and updates user concert details '''
 
+    # get the userconcert to be edited
     template_name = 'concerts/update.html'
-    userConcert_to_be_edited = get_object_or_404(UserConcert, pk=userConcert_id)
+    user_concert_to_be_edited = get_object_or_404(UserConcert, pk=user_concert_id)
 
-    print("HELLO", userConcert_id)
+    # get concert info from API
+    # REFACTOR to use GET CONCERT METHOD above TO CALL AND PASS SETLIST ID (concerts.concert_id)
+    concerts = UserConcert.objects.get(pk=user_concert_id)
+    setlistId = concerts.concert_id
+    endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+    url = endpoint.format(setlistId=setlistId)
+    headers = {
+      'x-api-key': settings.SETLIST_FM_API_KEY,
+      'Accept': 'application/json'
+      }
+    response = requests.get(url, headers=headers)
+    concertApi = response.json()
 
     if request.method == "GET":
+        print("USER CONCERT !!!!!!!!!", user_concert_to_be_edited)
         #No data submitted, create a blank form
-        form = UserConcertForm(instance=userConcert_to_be_edited)
+        form = UserConcertForm(instance=user_concert_to_be_edited)
 
     if request.method == "POST":
-        updateForm = UserConcertForm(request.POST, instance=userConcert_to_be_edited)
+        print("YOU DID IT!!", user_concert_id)
+        updateForm = UserConcertForm(request.POST, instance=user_concert_to_be_edited)
         updateForm.save()
 
-        print("YOU DID IT!!", userConcert_id)
+        return HttpResponseRedirect('/')
 
 
-        return redirect('mcaapp:index')
-
-
-    return render(request, template_name, {'form': form})
+    return render(request, template_name, {'form': form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})

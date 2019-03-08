@@ -11,6 +11,7 @@
                 <h2>Venue: {{concert.api.venue.name}}</h2>
                 <h3>Date: {{concert.api.eventDate}}</h3>
                 <p>Rating: {{concert.rating}} out of 11</p>
+                <p>Notes: {{ concert.notes}}</p>
                 {% if concert.api.sets.set %}
                     <p>Setlist:</p>
                     <ul>
@@ -24,14 +25,15 @@
                     <p>Setlist: not available</p>
                     {% endif %}
 
-                <button>click for details</button>
+                <button><a href="{% url 'mcaapp:concert_update' concert.id %}">click to edit</a></button>
+
             </div>
             {% endfor %}
 
     <!-- the following will show if the user has not added concerts -->
     {% else %}
         <p>You don't have any concerts saved yet.</p>
-        <p>SEARCH HERE to beging adding concerts</p>
+        <p>SEARCH HERE to begin adding concerts</p>
     {% endif%}
 
 {% endblock %}
