@@ -7,6 +7,5 @@ User logout (forked from Steve and Joe)
 
 
 
-
 Certain private keys are include in the functionality of this app.
 duplicate the env_template file, add your custom info, and delete the _template

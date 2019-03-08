@@ -11,12 +11,19 @@
 <body>
 <div class="banner">
   {% if user.is_authenticated %}
-  <nav id="navigation" class="nav">
-    <a href="{% url 'mcaapp:index' %}" class="">MCA</a>
-    - My Concert App
-    <a href="{% url 'mcaapp:profile' %}"><img src="media/{{user.profile.profile_photo}}" class="user_icon">{{ user.username }}</a> is signed in ||
-    <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
+  <nav id="navigation" class="flex">
+    <!-- MCA logo in upper left navbar -->
+    <div class="nav">
+      <a href="{% url 'mcaapp:index' %}" class="nav_logo">MCA</a>
+      - My Concert App
+    </div>
+    <!-- user login status in upper right navbar :: ml class is margin left -->
+    <div class="nav ml">
+      <a href="{% url 'mcaapp:profile' %}"><img src="/media/{{user.profile.profile_photo}}" class="user_icon">{{ user.username }}</a> is signed in ||
+      <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
+  </div>
   </nav>
+  <!-- subnav for authenticated users -->
   <div class="sub_nav">
       <a href="{% url 'mcaapp:concerts' %}">my concerts</a>
   </div>

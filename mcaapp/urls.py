@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^concerts$', views.concert_list, name='concerts'),
     path('concert_create/', views.concert_create, name='concert_create'),
     path('concert_update/<int:user_concert_id>/', views.concert_update, name='concert_update'),
+    path('concert_delete/<int:user_concert_id>/', views.concert_delete, name='concert_delete'),
 ]

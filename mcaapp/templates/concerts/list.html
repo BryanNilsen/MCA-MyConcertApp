@@ -11,27 +11,31 @@
                 <h2>Venue: {{concert.api.venue.name}}</h2>
                 <h3>Date: {{concert.api.eventDate}}</h3>
                 <p>Rating: {{concert.rating}} out of 11</p>
+                <p>Notes: {{ concert.notes}}</p>
                 {% if concert.api.sets.set %}
                     <p>Setlist:</p>
-                    <ul>
+                      <ul>
                       {% for set in concert.api.sets.set %}
                         {% for song in set.song%}
                           <li>{{ song.name }}</li>
                         {% endfor %}
+                      </ul>
                       {% endfor %}
-                    </ul>
-                    {% else %}
-                    <p>Setlist: not available</p>
-                    {% endif %}
 
-                <button>click for details</button>
+                {% else %}
+                    <p>Setlist: not available</p>
+                {% endif %}
+
+                <button><a href="{% url 'mcaapp:concert_update' concert.id %}">click to edit</a></button>
+                <button><a href="{% url 'mcaapp:concert_delete' concert.id %}">click to delete</a></button>
+
             </div>
             {% endfor %}
 
     <!-- the following will show if the user has not added concerts -->
     {% else %}
         <p>You don't have any concerts saved yet.</p>
-        <p>SEARCH HERE to beging adding concerts</p>
+        <p>SEARCH HERE to begin adding concerts</p>
     {% endif%}
 
 {% endblock %}
