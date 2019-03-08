@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django import forms
 from mcaapp.models import Profile
 from mcaapp.models import UserConcert
+from mcaapp.models import UserConcertMedia
 from django.conf import settings
 
 import requests
@@ -54,3 +55,8 @@ class ConcertSearchForm(forms.Form):
             else:
                 result['message'] = 'The Setlist API is not available at the moment. Please try again later.'
         return result
+
+class UserConcertMediaForm(forms.ModelForm):
+    class Meta:
+      model = UserConcertMedia
+      fields = ('media', 'description', 'is_private')

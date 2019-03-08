@@ -12,6 +12,13 @@
                 <h3>Date: {{concert.api.eventDate}}</h3>
                 <p>Rating: {{concert.rating}} out of 11</p>
                 <p>Notes: {{ concert.notes}}</p>
+                {% if concert.photos %}
+                <p>Photos</p>
+                    {% for photo in concert.photos %}
+                    <img src="/media/{{photo.media}}" width="50%">
+                    {% endfor %}
+                {% endif %}
+
                 {% if concert.api.sets.set %}
                     <p>Setlist:</p>
                       <ul>
