@@ -26,6 +26,7 @@
                     {% endif %}
 
                 <button><a href="{% url 'mcaapp:concert_update' concert.id %}">click to edit</a></button>
+                <button><a href="{% url 'mcaapp:concert_delete' concert.id %}">click to delete</a></button>
 
             </div>
             {% endfor %}

@@ -28,10 +28,13 @@ from mcaapp.models import UserConcertMedia
 
 # Create your views here
 
+
 def index(request):
     ''' main landing page for all users / includes search functionality '''
 
     template_name = 'index.html'
+
+
 
     search_result = {}
     if 'artistName' in request.GET:
@@ -270,7 +273,15 @@ def concert_update(request, user_concert_id):
         updateForm = UserConcertForm(request.POST, instance=user_concert_to_be_edited)
         updateForm.save()
 
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/concerts')
 
 
     return render(request, template_name, {'form': form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
+
+def concert_delete(request, user_concert_id):
+    concert = UserConcert.objects.get(pk=user_concert_id)
+    concert.delete()
+
+    print("you clicked delete for", concert)
+    return HttpResponseRedirect('/concerts')
+
