@@ -14,16 +14,17 @@
                 <p>Notes: {{ concert.notes}}</p>
                 {% if concert.api.sets.set %}
                     <p>Setlist:</p>
-                    <ul>
+                      <ul>
                       {% for set in concert.api.sets.set %}
                         {% for song in set.song%}
                           <li>{{ song.name }}</li>
                         {% endfor %}
+                      </ul>
                       {% endfor %}
-                    </ul>
-                    {% else %}
+
+                {% else %}
                     <p>Setlist: not available</p>
-                    {% endif %}
+                {% endif %}
 
                 <button><a href="{% url 'mcaapp:concert_update' concert.id %}">click to edit</a></button>
                 <button><a href="{% url 'mcaapp:concert_delete' concert.id %}">click to delete</a></button>
