@@ -294,26 +294,49 @@ def concert_update(request, user_concert_id):
     concertApi = response.json()
 
     if request.method == "GET":
-        print("USER CONCERT !!!!!!!!!", user_concert_to_be_edited)
         #No data submitted, create a blank form
         form = UserConcertForm(instance=user_concert_to_be_edited)
         media_form = UserConcertMediaForm()
 
+        # return HttpResponseRedirect(reverse('mcaapp:concert_media', args=(user_concert_id,)))
+
     if request.method == "POST":
-        print("YOU DID IT!!", user_concert_id)
-
         updateForm = UserConcertForm(request.POST, instance=user_concert_to_be_edited)
-        updateForm.save(commit=False)
+        updateForm.save()
 
+        return HttpResponseRedirect(reverse('mcaapp:concert_detail', args=(user_concert_id,)))
+
+
+    return render(request, template_name, {'form': form, 'media_form': media_form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
+
+def concert_media(request, user_concert_id):
+    template_name = 'concerts/media.html'
+    user_concert_to_be_edited = get_object_or_404(UserConcert, pk=user_concert_id)
+    concerts = UserConcert.objects.get(pk=user_concert_id)
+
+    if request.method == "GET":
+        # get concert media and display form to add more
+        concert_media = UserConcertMedia.objects.filter(user_concert_id=user_concert_id)
+        print("GET CONCERT MEDIA", concert_media)
+        media_form = UserConcertMediaForm()
+
+    if request.method == "POST":
+        print("ADD CONCERT MEDIA")
         addMediaForm = UserConcertMediaForm(request.POST, request.FILES)
         newMedia = addMediaForm.save(commit=False)
         newMedia.user_concert = concerts
         newMedia.save()
 
-        return HttpResponseRedirect('/concerts')
+        return HttpResponseRedirect(reverse('mcaapp:concert_media', args=(user_concert_id,)))
 
+    return render(request, template_name, {'media_form': media_form, 'media': concert_media})
 
-    return render(request, template_name, {'form': form, 'media_form': media_form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
+def concert_media_delete(request, user_concert_media_id):
+    media = UserConcertMedia.objects.get(pk=user_concert_media_id)
+    media.media.delete()
+    media.delete()
+
+    return HttpResponseRedirect(reverse('mcaapp:concert_media', args=(media.user_concert_id,)))
 
 def concert_delete(request, user_concert_id):
     concert = UserConcert.objects.get(pk=user_concert_id)
