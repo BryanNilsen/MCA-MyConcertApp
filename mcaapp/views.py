@@ -310,6 +310,7 @@ def concert_update(request, user_concert_id):
     return render(request, template_name, {'form': form, 'media_form': media_form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
 
 def concert_media(request, user_concert_id):
+    ''' displays form for adding photos to a concert and any existing photos already uploaded for a concert '''
     template_name = 'concerts/media.html'
     user_concert_to_be_edited = get_object_or_404(UserConcert, pk=user_concert_id)
     concerts = UserConcert.objects.get(pk=user_concert_id)
@@ -332,6 +333,7 @@ def concert_media(request, user_concert_id):
     return render(request, template_name, {'media_form': media_form, 'media': concert_media})
 
 def concert_media_delete(request, user_concert_media_id):
+    ''' deletes media from database and file from directory '''
     media = UserConcertMedia.objects.get(pk=user_concert_media_id)
     media.media.delete()
     media.delete()
@@ -339,9 +341,28 @@ def concert_media_delete(request, user_concert_media_id):
     return HttpResponseRedirect(reverse('mcaapp:concert_media', args=(media.user_concert_id,)))
 
 def concert_delete(request, user_concert_id):
+    ''' deletes concert '''
     concert = UserConcert.objects.get(pk=user_concert_id)
     concert.delete()
 
     print("you clicked delete for", concert)
     return HttpResponseRedirect('/concerts')
 
+def gallery_user(request):
+    ''' displays all photos uploaded by current user '''
+
+    template_name = 'gallery/user.html'
+    user = request.user
+    # get all concerts from user
+    concerts = UserConcert.objects.filter(user_id=user.id)
+    # for each concert, get any/all photos
+    for concert in concerts:
+      concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
+
+    return render(request, template_name, {'concerts': concerts})
+
+def gallery_public(request):
+    template_name = 'gallery/public.html'
+    photos = UserConcertMedia.objects.filter(is_private=0)
+
+    return render(request, template_name, {'photos': photos})

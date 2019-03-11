@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<h1>Photo Gallery</h1>
+
+{% if concerts%}
+    <p>There are concerts</p>
+    {% for media in concerts%}
+        {% if media.photos %}
+        <div class="gallery_parent">
+            {% for photo in media.photos %}
+            <div class="gallery_child">
+            <a href="/media/{{photo.media}}"><img src="/media/{{photo.media}}" title="{{photo.description}}"></a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif%}
+    {% endfor %}
+{% else%}
+    <h2>No Photos Uploaded</h2>
+{% endif %}
+
+{% endblock %}

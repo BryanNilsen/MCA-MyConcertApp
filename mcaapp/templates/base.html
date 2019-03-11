@@ -29,7 +29,7 @@
     <!-- subnav for authenticated users -->
     <div class="sub_nav">
       <a href="{% url 'mcaapp:concerts' %}">my concerts</a>
-      <a href="">my gallery</a>
+      <a href="{% url 'mcaapp:gallery_user' %}">my gallery</a>
     </div>
 
     {% else %}
@@ -46,7 +46,7 @@
     <!-- subnav for unauthenticated users -->
     <div class="sub_nav">
       <a href="">browse concerts</a>
-      <a href="">gallery</a>
+      <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
     </div>
     {% endif %}
     <!-- <p class="center">
