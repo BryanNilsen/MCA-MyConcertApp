@@ -113,9 +113,9 @@ nav {
 
 .gallery_child {
   margin: 10px;
-  min-width: 200px;
+  min-width: 175px;
   flex-grow: 1;
-  width: calc(100% * (1/4) - 10px);
+  width: calc(100% * (1/4) - 20px);
 }
 
 .gallery_child img {
