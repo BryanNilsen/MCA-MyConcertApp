@@ -8,6 +8,7 @@ body {
 /* general styling */
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .ml {
@@ -102,6 +103,24 @@ nav {
   border-radius: 50%;
   border: 2px solid white;
   vertical-align: middle;
+}
+
+.gallery_parent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.gallery_child {
+  margin: 10px;
+  min-width: 200px;
+  flex-grow: 1;
+  width: calc(100% * (1/4) - 10px);
+}
+
+.gallery_child img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* page text content */

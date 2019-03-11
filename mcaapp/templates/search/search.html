@@ -17,7 +17,6 @@
         <h2>{{ result.artist.name }}</h2>
         <h4>Venue: {{ result.venue.name }}</h4>
         <h5>Date: {{ result.eventDate }}</h5>
-        <h5>id: {{ result.id }}</h5>
 
         <!-- add concert to UserConcert table -->
             <form method="post" action="{% url 'mcaapp:concert_create' %}">

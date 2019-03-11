@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<h1>Add / Remove Photos</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <h2>Add Photos</h2>
+  {{ media_form.as_p}}
+  <button type="submit">submit</button>
+</form>
+
+
+
+{% if media%}
+<h2>Uploaded Photos </h2>
+<div class="gallery_parent">
+  {% for photo in media%}
+<div class="gallery_child">
+<a href="/media/{{photo.media}}"><img src="/media/{{photo.media}}" title="{{photo.description}}"></a>
+<div class="center"><button><a href="{% url 'mcaapp:concert_media_delete' photo.id %}">click to delete</a></button>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else%}
+<h2>No Photos Uploaded</h2>
+{% endif %}
+
+{% endblock %}

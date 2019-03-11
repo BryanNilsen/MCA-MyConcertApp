@@ -16,4 +16,6 @@ urlpatterns = [
     path('concert_detail/<int:user_concert_id>/', views.concert_detail, name='concert_detail'),
     path('concert_update/<int:user_concert_id>/', views.concert_update, name='concert_update'),
     path('concert_delete/<int:user_concert_id>/', views.concert_delete, name='concert_delete'),
+    path('concert_media/<int:user_concert_id>/', views.concert_media, name='concert_media'),
+    path('concert_media_delete/<int:user_concert_media_id>/', views.concert_media_delete, name='concert_media_delete'),
 ]
