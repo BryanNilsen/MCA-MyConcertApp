@@ -9,11 +9,16 @@
 <h2>{{ concertApi.artist.name }}</h2>
 
 <h2>Tell us about the show</h2>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    <h2>Add Photos</h2>
+    {{ media_form.as_p}}
   <button type="submit">submit</button>
 </form>
+
+
+
 
 {% endif %}
 

@@ -2,40 +2,30 @@
 {% load static %}
 
 {% block content %}
-    <h1>My Concerts</h1>
-    <!-- the following will show if the user has added concerts -->
-    {% if concerts %}
-            {% for concert in concerts %}
-            <div class="search_card">
-                <h1>{{concert.api.artist.name}}</h1>
-                <h2>Venue: {{concert.api.venue.name}}</h2>
-                <h3>Date: {{concert.api.eventDate}}</h3>
-                <p>Rating: {{concert.rating}} out of 11</p>
-                <p>Notes: {{ concert.notes}}</p>
-                {% if concert.api.sets.set %}
-                    <p>Setlist:</p>
-                      <ul>
-                      {% for set in concert.api.sets.set %}
-                        {% for song in set.song%}
-                          <li>{{ song.name }}</li>
-                        {% endfor %}
-                      </ul>
-                      {% endfor %}
+<h1>My Concerts</h1>
+<!-- the following will show if the user has added concerts -->
+{% if concerts %}
+  {% for concert in concerts %}
+  <div class="search_card">
+    <h1>{{concert.api.artist.name}}</h1>
+    <h2>Venue: {{concert.api.venue.name}}</h2>
+    <h3>Date: {{concert.api.eventDate}}</h3>
+    <p>Rating: {{concert.rating}} out of 11</p>
+    {% if concert.photos %}
+    {% for photo in concert.photos %}
+    <a href="/media/{{photo.media}}"><img src="/media/{{photo.media}}" width="10%"></a>
+    {% endfor %}
+    {% endif %}
+    <div>
+      <button><a href="{% url 'mcaapp:concert_detail' concert.id %}">detail</a></button>
+    </div>
+  </div>
+  {% endfor %}
 
-                {% else %}
-                    <p>Setlist: not available</p>
-                {% endif %}
-
-                <button><a href="{% url 'mcaapp:concert_update' concert.id %}">click to edit</a></button>
-                <button><a href="{% url 'mcaapp:concert_delete' concert.id %}">click to delete</a></button>
-
-            </div>
-            {% endfor %}
-
-    <!-- the following will show if the user has not added concerts -->
-    {% else %}
-        <p>You don't have any concerts saved yet.</p>
-        <p>SEARCH HERE to begin adding concerts</p>
-    {% endif%}
+<!-- the following will show if the user has not added concerts -->
+{% else %}
+  <p>You don't have any concerts saved yet.</p>
+  <p><a href="{% url 'mcaapp:index' %}">SEARCH HERE</a> to begin adding concerts</p>
+{% endif%}
 
 {% endblock %}

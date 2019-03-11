@@ -9,36 +9,51 @@
 </head>
 
 <body>
-<div class="banner">
-  {% if user.is_authenticated %}
-  <nav id="navigation" class="flex">
-    <!-- MCA logo in upper left navbar -->
-    <div class="nav">
-      <a href="{% url 'mcaapp:index' %}" class="nav_logo">MCA</a>
-      - My Concert App
-    </div>
-    <!-- user login status in upper right navbar :: ml class is margin left -->
-    <div class="nav ml">
-      <a href="{% url 'mcaapp:profile' %}"><img src="/media/{{user.profile.profile_photo}}" class="user_icon">{{ user.username }}</a> is signed in ||
-      <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
-  </div>
-  </nav>
-  <!-- subnav for authenticated users -->
-  <div class="sub_nav">
+  <div class="banner">
+    {% if user.is_authenticated %}
+    <nav id="navigation" class="flex">
+      <!-- MCA logo in upper left navbar -->
+      <div class="nav">
+        <a href="{% url 'mcaapp:index' %}" class="nav_logo">MCA</a> - My Concert App
+        <a href="{% url 'mcaapp:about' %}">about</a>
+      </div>
+      <!-- user login status in upper right navbar :: ml class is margin left -->
+      <div class="nav ml">
+        <a href="{% url 'mcaapp:profile' %}">
+          <img src="/media/{{user.profile.profile_photo}}" class="user_icon">
+          {{ user.username }}
+        </a>
+        <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
+      </div>
+    </nav>
+    <!-- subnav for authenticated users -->
+    <div class="sub_nav">
       <a href="{% url 'mcaapp:concerts' %}">my concerts</a>
-  </div>
-  {% else %}
-  <nav id="navigation" class="nav">
-    <a href="{% url 'mcaapp:index' %}" class="logo">MCA</a> - My Concert App ||
-    <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
-  </nav>
-  {% endif %}
-  <p class="center">
-    <span class="banner_text">Your concert scrapbook</span>
-  </p>
-</div>
+      <a href="">my gallery</a>
+    </div>
 
-  <div>
+    {% else %}
+    <nav id="navigation" class="flex">
+      <!-- MCA logo in upper left navbar -->
+      <div class="nav">
+        <a href="{% url 'mcaapp:index' %}" class="nav_logo">MCA</a> - My Concert App
+        <a href="{% url 'mcaapp:about' %}">about</a>
+      </div>
+      <div class="nav ml">
+        <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
+      </div>
+    </nav>
+    <!-- subnav for unauthenticated users -->
+    <div class="sub_nav">
+      <a href="">browse concerts</a>
+      <a href="">gallery</a>
+    </div>
+    {% endif %}
+    <!-- <p class="center">
+      <span class="banner_text">Your concert scrapbook</span>
+    </p> -->
+  </div>
+  <div class="body_copy">
     {% block content %}{% endblock %}
   </div>
 

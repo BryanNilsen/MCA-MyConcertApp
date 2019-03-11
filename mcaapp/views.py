@@ -18,6 +18,7 @@ from mcaapp.forms import UserUpdateForm
 from mcaapp.forms import ProfileForm
 from mcaapp.forms import ConcertSearchForm
 from mcaapp.forms import UserConcertForm
+from mcaapp.forms import UserConcertMediaForm
 
 #  imported models
 from django.contrib.auth.models import User
@@ -34,8 +35,6 @@ def index(request):
 
     template_name = 'index.html'
 
-
-
     search_result = {}
     if 'artistName' in request.GET:
         form = ConcertSearchForm(request.GET)
@@ -44,6 +43,11 @@ def index(request):
     else:
         form = ConcertSearchForm()
     return render(request, template_name, {'form': form, 'search_result': search_result})
+
+def about(request):
+    ''' about MCA '''
+    template_name = 'about.html'
+    return render(request, template_name)
 
 
 @transaction.atomic
@@ -204,11 +208,12 @@ def get_concert(concert_id):
 
 
 def concert_list(request):
-    """lists all current user concerts"""
+    ''' lists all current user concerts '''
     user = request.user
     concerts = UserConcert.objects.filter(user_id=user.id)
 
     for concert in concerts:
+      # get concert info from setlist api
         setlistId = concert.concert_id
         endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
         url = endpoint.format(setlistId=setlistId)
@@ -217,6 +222,8 @@ def concert_list(request):
           'Accept': 'application/json'
           }
         response = requests.get(url, headers=headers)
+
+        concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
 
         if response.status_code == 200:  # SUCCESS
             result = response.json()
@@ -227,6 +234,29 @@ def concert_list(request):
     template_name = 'concerts/list.html'
 
     return render(request, template_name, {'concerts': concerts})
+
+
+def concert_detail(request, user_concert_id):
+    ''' detail page for user concert '''
+    template_name = 'concerts/detail.html'
+
+    # get user concert info from local db
+    user_concert = get_object_or_404(UserConcert, pk=user_concert_id)
+    print("USER CONCERT DETAIL:", user_concert)
+    user_concert.photos = UserConcertMedia.objects.filter(user_concert_id=user_concert.id)
+
+    # get concert info from setlist api using concert_id
+    setlistId = user_concert.concert_id
+    endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+    url = endpoint.format(setlistId=setlistId)
+    headers = {
+      'x-api-key': settings.SETLIST_FM_API_KEY,
+      'Accept': 'application/json'
+      }
+    response = requests.get(url, headers=headers)
+    user_concert.api = response.json()
+
+    return render(request, template_name, {'concert': user_concert,})
 
 
 def concert_create(request):
@@ -267,16 +297,23 @@ def concert_update(request, user_concert_id):
         print("USER CONCERT !!!!!!!!!", user_concert_to_be_edited)
         #No data submitted, create a blank form
         form = UserConcertForm(instance=user_concert_to_be_edited)
+        media_form = UserConcertMediaForm()
 
     if request.method == "POST":
         print("YOU DID IT!!", user_concert_id)
+
         updateForm = UserConcertForm(request.POST, instance=user_concert_to_be_edited)
-        updateForm.save()
+        updateForm.save(commit=False)
+
+        addMediaForm = UserConcertMediaForm(request.POST, request.FILES)
+        newMedia = addMediaForm.save(commit=False)
+        newMedia.user_concert = concerts
+        newMedia.save()
 
         return HttpResponseRedirect('/concerts')
 
 
-    return render(request, template_name, {'form': form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
+    return render(request, template_name, {'form': form, 'media_form': media_form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
 
 def concert_delete(request, user_concert_id):
     concert = UserConcert.objects.get(pk=user_concert_id)
