@@ -1,10 +1,11 @@
 body {
   margin: 0px;
-  background: rgb(10, 10, 10);
+  background: rgb(15, 15, 15);
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* general styling */
 .flex {
   display: flex;
 }
@@ -44,6 +45,8 @@ body {
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 1.0);
   font-size: 2em;
 }
+
+
 /* top navigation */
 nav {
   padding: 10px;
@@ -74,7 +77,6 @@ nav {
 }
 
 /* search results display */
-
 .search_card {
   margin: auto;
   width: 80%;
@@ -96,8 +98,14 @@ nav {
 /* images */
 .user_icon {
   margin: 0px 5px;
-  height: 20px;
+  height: 16px;
   border-radius: 50%;
   border: 2px solid white;
   vertical-align: middle;
+}
+
+/* page text content */
+.body_copy {
+  padding: 0px 20px;
+  color: rgb(145, 220, 255);
 }

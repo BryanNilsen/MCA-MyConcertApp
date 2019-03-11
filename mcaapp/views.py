@@ -35,8 +35,6 @@ def index(request):
 
     template_name = 'index.html'
 
-
-
     search_result = {}
     if 'artistName' in request.GET:
         form = ConcertSearchForm(request.GET)
@@ -45,6 +43,11 @@ def index(request):
     else:
         form = ConcertSearchForm()
     return render(request, template_name, {'form': form, 'search_result': search_result})
+
+def about(request):
+    ''' about MCA '''
+    template_name = 'about.html'
+    return render(request, template_name)
 
 
 @transaction.atomic
@@ -205,7 +208,7 @@ def get_concert(concert_id):
 
 
 def concert_list(request):
-    """lists all current user concerts"""
+    ''' lists all current user concerts '''
     user = request.user
     concerts = UserConcert.objects.filter(user_id=user.id)
 
@@ -231,6 +234,29 @@ def concert_list(request):
     template_name = 'concerts/list.html'
 
     return render(request, template_name, {'concerts': concerts})
+
+
+def concert_detail(request, user_concert_id):
+    ''' detail page for user concert '''
+    template_name = 'concerts/detail.html'
+
+    # get user concert info from local db
+    user_concert = get_object_or_404(UserConcert, pk=user_concert_id)
+    print("USER CONCERT DETAIL:", user_concert)
+    user_concert.photos = UserConcertMedia.objects.filter(user_concert_id=user_concert.id)
+
+    # get concert info from setlist api using concert_id
+    setlistId = user_concert.concert_id
+    endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+    url = endpoint.format(setlistId=setlistId)
+    headers = {
+      'x-api-key': settings.SETLIST_FM_API_KEY,
+      'Accept': 'application/json'
+      }
+    response = requests.get(url, headers=headers)
+    user_concert.api = response.json()
+
+    return render(request, template_name, {'concert': user_concert,})
 
 
 def concert_create(request):
