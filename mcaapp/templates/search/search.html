@@ -1,15 +1,6 @@
-<h2>Search Concerts</h2>
-
-<!-- search concerts from Setlist.fm -->
-<form method="get">
-  {% csrf_token %}
-  {{ form.as_p }}
-<button type="submit">search</button>
-</form>
 
 <!-- display search results -->
 {% if search_result %}
-  <hr>
   <p>Results:</p>
   {% if search_result.success %}
     {% for result in search_result.setlist %}
