@@ -12,6 +12,7 @@
   <!-- the following handles the ratings display -->
   <p>Rating: {{concert.rating}} out of 11
   {% if concert.rating == 11 %}
+      <!-- Iterate N times after ljust:  -->
       {% for i in "x"|ljust:concert.rating %}
       <image src="/static/mcaapp/images/horns.png" class="the_horns"></image>
       {% endfor %}
@@ -19,6 +20,7 @@
       {% for i in "x"|ljust:concert.rating %}
       <image src="/static/mcaapp/images/horns.png" class="the_horns"></image>
       {% endfor %}
+      <!-- rating_remainder calculated in view and passed in context  -->
       {% for i in "x"|ljust:concert.rating_remainder %}
       <image src="/static/mcaapp/images/horns.png" class="the_horns_transparent"></image>
       {% endfor %}
@@ -34,9 +36,9 @@
 
   {% if concert.api.sets.set %}
   <div class="setlist">
-  <h2>Setlist:</h2>
+  <h2>Setlist</h2>
   {% for set in concert.api.sets.set %}
-  <ul class="setlist">
+  <ul>
         {% for song in set.song%}
         <li>{{ song.name }}</li>
         {% endfor %}

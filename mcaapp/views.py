@@ -6,6 +6,7 @@ from django.shortcuts import render, reverse
 from django.template import RequestContext
 from django.contrib import messages
 from django.conf import settings
+from datetime import datetime
 # from django.urls import reverse
 import requests
 
@@ -34,6 +35,24 @@ def index(request):
     ''' main landing page for all users / includes search functionality '''
 
     template_name = 'index.html'
+    recent_concerts = UserConcert.objects.all().order_by('-id')[:5]
+
+    for concert in recent_concerts:
+      # get concert info from setlist api
+        setlistId = concert.concert_id
+        endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+        url = endpoint.format(setlistId=setlistId)
+        headers = {
+          'x-api-key': settings.SETLIST_FM_API_KEY,
+          'Accept': 'application/json'
+          }
+        response = requests.get(url, headers=headers)
+        concert.api = response.json()
+        eventDate = concert.api['eventDate']
+        newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+        concert.newDate = newDate.strftime('%B %d, %Y')
+        print("CONCERT DATE", newDate.strftime('%B-%d'))
+    print("RECENT CONCERTS", recent_concerts)
 
     search_result = {}
     if 'artistName' in request.GET:
@@ -42,7 +61,7 @@ def index(request):
             search_result = form.search()
     else:
         form = ConcertSearchForm()
-    return render(request, template_name, {'form': form, 'search_result': search_result})
+    return render(request, template_name, {'form': form, 'search_result': search_result, 'recent_concerts': recent_concerts})
 
 def about(request):
     ''' about MCA '''

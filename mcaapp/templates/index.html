@@ -2,15 +2,49 @@
 {% load static %}
 
 {% block content %}
-
+<!-- AUTHENTICATED USER VIEW -->
   {% if user.is_authenticated %}
   <h1>Welcome back {{ user.username }}!</h1>
-
+<!-- search functionality -->
   {% include 'search/search.html'%}
 
+<!-- recent concerts list -->
+  {% if recent_concerts %}
+  <h1>Here are the five most recently added concerts</h1>
+
+  {% for concert in recent_concerts %}
+  <div class="search_card">
+    <h1>{{concert.api.artist.name}}</h1>
+    <h2>Venue: {{concert.api.venue.name}}</h2>
+    <h3>Date: {{concert.newDate}}</h3>
+  </div>
+  {% endfor %}
+
+
+  {% else%}
+  <p>What? There are no recent concerts</p>
+  {% endif%}
+
+<!-- UNAUTHENTICATED USER VIEW -->
   {% else %}
-  <h1>Register or Log in </h1>
-  <h2>Recently added concerts</h2>
+  <h1>Recently added concerts</h1>
+  {% if recent_concerts %}
+  <h1>Here are the five most recently added concerts</h1>
+
+  {% for concert in recent_concerts %}
+  <div class="search_card">
+    <h1>{{concert.api.artist.name}}</h1>
+    <h2>Venue: {{concert.api.venue.name}}</h2>
+    <h3>Date: {{concert.newDate}}</h3>
+    <p>
+    <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
+    </p>
+  </div>
+  {% endfor %}
+
+  {% else%}
+  <p>What? There are no recent concerts</p>
+  {% endif%}
 
 
   {% endif %}
