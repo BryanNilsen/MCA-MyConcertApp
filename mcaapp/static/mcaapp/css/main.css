@@ -105,6 +105,17 @@ nav {
   vertical-align: middle;
 }
 
+.the_horns {
+  width:15px;
+  vertical-align: middle;
+}
+
+.the_horns_transparent {
+  width:15px;
+  opacity: .3;
+  vertical-align: middle;
+  filter: grayscale(1)
+}
 .gallery_parent {
   display: flex;
   flex-wrap: wrap;
@@ -127,4 +138,16 @@ nav {
 .body_copy {
   padding: 0px 20px;
   color: rgb(145, 220, 255);
+}
+
+.setlist {
+  margin: 10px;
+  padding: 10px;
+  background: whitesmoke;
+  background-image: url( '/static/mcaapp/images/linedpaper.png' );
+  color: black;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.2em;
+  text-align: center;
+  list-style: none;
 }

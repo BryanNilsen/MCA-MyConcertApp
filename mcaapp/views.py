@@ -242,6 +242,11 @@ def concert_detail(request, user_concert_id):
 
     # get user concert info from local db
     user_concert = get_object_or_404(UserConcert, pk=user_concert_id)
+    rating_total = "11"
+    rating_total = int(rating_total)
+    rating = user_concert.rating
+    rating = int(rating)
+    user_concert.rating_remainder = rating_total - rating
     print("USER CONCERT DETAIL:", user_concert)
     user_concert.photos = UserConcertMedia.objects.filter(user_concert_id=user_concert.id)
 
