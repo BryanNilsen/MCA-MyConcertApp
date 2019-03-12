@@ -1,5 +1,10 @@
 MCA - My Concert App
 
+ERD:
+![ERD](MCA-ERD.png)
+Format: ![Alt Text](url)
+
+
 Functionality:
 User registration (forked from Steve and Joe)
 User login (forked from Steve and Joe)
