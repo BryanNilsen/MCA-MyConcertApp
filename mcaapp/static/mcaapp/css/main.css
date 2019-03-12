@@ -96,6 +96,19 @@ nav {
   text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
 }
 
+/* .search_card a {
+  color: white;
+  text-decoration: none;
+  padding: 3px 5px;
+}
+
+.search_card a:hover {
+  color: red;
+  text-decoration: underline;
+  text-underline-position: under;
+  background-color: black;
+} */
+
 /* images */
 .user_icon {
   margin: 0px 5px;
@@ -105,6 +118,17 @@ nav {
   vertical-align: middle;
 }
 
+.the_horns {
+  width:15px;
+  vertical-align: middle;
+}
+
+.the_horns_transparent {
+  width:15px;
+  opacity: .3;
+  vertical-align: middle;
+  filter: grayscale(1)
+}
 .gallery_parent {
   display: flex;
   flex-wrap: wrap;
@@ -127,4 +151,20 @@ nav {
 .body_copy {
   padding: 0px 20px;
   color: rgb(145, 220, 255);
+}
+
+.setlist {
+  margin: 20px;
+  padding: 10px;
+  background: whitesmoke;
+  background-image: url( '/static/mcaapp/images/linedpaper.png' );
+  color: black;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.2em;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgb(15, 15, 15);
+}
+
+.setlist li {
+  list-style: none;
 }

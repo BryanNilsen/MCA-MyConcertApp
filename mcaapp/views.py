@@ -6,6 +6,7 @@ from django.shortcuts import render, reverse
 from django.template import RequestContext
 from django.contrib import messages
 from django.conf import settings
+from datetime import datetime
 # from django.urls import reverse
 import requests
 
@@ -34,6 +35,24 @@ def index(request):
     ''' main landing page for all users / includes search functionality '''
 
     template_name = 'index.html'
+    recent_concerts = UserConcert.objects.all().order_by('-id')[:5]
+
+    for concert in recent_concerts:
+      # get concert info from setlist api
+        setlistId = concert.concert_id
+        endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+        url = endpoint.format(setlistId=setlistId)
+        headers = {
+          'x-api-key': settings.SETLIST_FM_API_KEY,
+          'Accept': 'application/json'
+          }
+        response = requests.get(url, headers=headers)
+        concert.api = response.json()
+        eventDate = concert.api['eventDate']
+        newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+        concert.newDate = newDate.strftime('%B %d, %Y')
+        print("CONCERT DATE", newDate.strftime('%B-%d'))
+    print("RECENT CONCERTS", recent_concerts)
 
     search_result = {}
     if 'artistName' in request.GET:
@@ -42,7 +61,7 @@ def index(request):
             search_result = form.search()
     else:
         form = ConcertSearchForm()
-    return render(request, template_name, {'form': form, 'search_result': search_result})
+    return render(request, template_name, {'form': form, 'search_result': search_result, 'recent_concerts': recent_concerts})
 
 def about(request):
     ''' about MCA '''
@@ -242,6 +261,11 @@ def concert_detail(request, user_concert_id):
 
     # get user concert info from local db
     user_concert = get_object_or_404(UserConcert, pk=user_concert_id)
+    rating_total = "11"
+    rating_total = int(rating_total)
+    rating = user_concert.rating
+    rating = int(rating)
+    user_concert.rating_remainder = rating_total - rating
     print("USER CONCERT DETAIL:", user_concert)
     user_concert.photos = UserConcertMedia.objects.filter(user_concert_id=user_concert.id)
 
@@ -310,6 +334,7 @@ def concert_update(request, user_concert_id):
     return render(request, template_name, {'form': form, 'media_form': media_form, 'concert': user_concert_to_be_edited, 'concertApi': concertApi})
 
 def concert_media(request, user_concert_id):
+    ''' displays form for adding photos to a concert and any existing photos already uploaded for a concert '''
     template_name = 'concerts/media.html'
     user_concert_to_be_edited = get_object_or_404(UserConcert, pk=user_concert_id)
     concerts = UserConcert.objects.get(pk=user_concert_id)
@@ -332,6 +357,7 @@ def concert_media(request, user_concert_id):
     return render(request, template_name, {'media_form': media_form, 'media': concert_media})
 
 def concert_media_delete(request, user_concert_media_id):
+    ''' deletes media from database and file from directory '''
     media = UserConcertMedia.objects.get(pk=user_concert_media_id)
     media.media.delete()
     media.delete()
@@ -339,9 +365,28 @@ def concert_media_delete(request, user_concert_media_id):
     return HttpResponseRedirect(reverse('mcaapp:concert_media', args=(media.user_concert_id,)))
 
 def concert_delete(request, user_concert_id):
+    ''' deletes concert '''
     concert = UserConcert.objects.get(pk=user_concert_id)
     concert.delete()
 
     print("you clicked delete for", concert)
     return HttpResponseRedirect('/concerts')
 
+def gallery_user(request):
+    ''' displays all photos uploaded by current user '''
+
+    template_name = 'gallery/user.html'
+    user = request.user
+    # get all concerts from user
+    concerts = UserConcert.objects.filter(user_id=user.id)
+    # for each concert, get any/all photos
+    for concert in concerts:
+      concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
+
+    return render(request, template_name, {'concerts': concerts})
+
+def gallery_public(request):
+    template_name = 'gallery/public.html'
+    photos = UserConcertMedia.objects.filter(is_private=0)
+
+    return render(request, template_name, {'photos': photos})
