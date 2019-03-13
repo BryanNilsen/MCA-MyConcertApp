@@ -4,11 +4,25 @@
 {% block content %}
 <!-- AUTHENTICATED USER VIEW -->
   {% if user.is_authenticated %}
+  <!-- search bar functionality -->
+<div class="search">
+  <form method="get">
+    <div class="flex space_evenly">
+      {% csrf_token %}
+      <div class="search_band block">Concert Search:</div>
+      <div class="search_band block">artist: {{ form.artistName}}</div>
+      <div class="search_band block">venue/city: {{ form.venueName}}</div>
+      <div class="search_band"><button type="submit">find</button></div>
+    </div>
+    </form>
+  </div>
+
+<!-- page body under nav banner and search -->
+<div class="body_copy">
   <h1>Welcome back {{ user.username }}!</h1>
-<!-- search functionality -->
   {% include 'search/search.html'%}
 
-<!-- recent concerts list -->
+  <!-- recent concerts list -->
   {% if recent_concerts %}
   <h1>Here are the five most recently added concerts</h1>
 
@@ -20,10 +34,12 @@
   </div>
   {% endfor %}
 
-
+  <!-- if no recent concerts -->
   {% else%}
   <p>What? There are no recent concerts</p>
   {% endif%}
+
+</div>
 
 <!-- UNAUTHENTICATED USER VIEW -->
   {% else %}
