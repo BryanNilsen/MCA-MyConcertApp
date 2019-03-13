@@ -1,7 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
 
+{% block content %}
 <!-- display search results -->
 {% if search_result %}
-  <p>Results:</p>
+  <p>Search Results for: "{{search_terms.artistName}}"
+    {% if search_terms.venueName != '' %}
+    + "{{search_terms.venueName}}"
+    {% endif %}
+  </p>
   {% if search_result.success %}
     {% for result in search_result.setlist %}
       <div class="search_card">
@@ -21,6 +28,7 @@
           </form>
 
 {% else %}
+
 <p>Log In or Register to add a concert</p>
 {% endif %}
 
@@ -32,3 +40,5 @@
     <p><em>{{ search_result.message }}</em></p>
   {% endif %}
 {% endif %}
+
+{% endblock content %}

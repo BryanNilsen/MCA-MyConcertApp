@@ -14,10 +14,7 @@
   <nav id="navigation" class="flex top_nav">
     <!-- MCA logo in upper left navbar -->
     <div class="nav">
-
-      <a href="{% url 'mcaapp:index' %}">
-        <img src="../static/mcaapp/images/MCA-logo.png" alt="MCA - My Concert App Logo" class="nav_logo">
-      </a>
+      <a href="{% url 'mcaapp:index' %}"><img src="{% static 'mcaapp/images/mca-logo-nav.png' %}" alt="MCA - My Concert App Logo" class="nav_logo"></a>
       <a href="{% url 'mcaapp:about' %}">about</a>
       <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
     </div>
@@ -41,11 +38,9 @@
     <nav id="navigation" class="flex top_nav">
       <!-- MCA logo in upper left navbar -->
       <div class="nav">
-          <a href="{% url 'mcaapp:index' %}">
-              <img src="../static/mcaapp/images/MCA-logo.png" alt="MCA - My Concert App Logo" class="nav_logo">
-            </a>
-            <a href="{% url 'mcaapp:about' %}">about</a>
-            <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
+          <a href="{% url 'mcaapp:index' %}"><img src="../static/mcaapp/images/mca-logo-nav.png" alt="MCA - My Concert App Logo" class="nav_logo"></a>
+          <a href="{% url 'mcaapp:about' %}">about</a>
+          <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
       </div>
       <div class="nav ml">
         <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
@@ -57,15 +52,13 @@
       <a href="">browse concerts</a>
     </div>
     {% endif %}
-    <!-- <p class="center">
-      <span class="banner_text">Your concert scrapbook</span>
-    </p> -->
   </div>
 
-    {% block content %}{% endblock %}
+  <!-- Search Bar -->
+  {% include 'search/search_bar.html'%}
 
+  <!-- Body Content -->
+  {% block content %}{% endblock %}
 
 </body>
-
-
 </html>

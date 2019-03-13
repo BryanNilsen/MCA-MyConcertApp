@@ -38,7 +38,7 @@ def index(request):
     recent_concerts = UserConcert.objects.all().order_by('-id')[:5]
 
     for concert in recent_concerts:
-      # get concert info from setlist api
+    # get concert info from setlist api
         setlistId = concert.concert_id
         endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
         url = endpoint.format(setlistId=setlistId)
@@ -54,14 +54,22 @@ def index(request):
         print("CONCERT DATE", newDate.strftime('%B-%d'))
     print("RECENT CONCERTS", recent_concerts)
 
+
+    return render(request, template_name, {'recent_concerts': recent_concerts})
+
+def search(request):
+    ''' displays search results '''
+    # get keywords searched to display in template
+    search_terms = request.GET
+    template_name = 'search/search.html'
+
     search_result = {}
     if 'artistName' in request.GET:
         form = ConcertSearchForm(request.GET)
         if form.is_valid():
             search_result = form.search()
-    else:
-        form = ConcertSearchForm()
-    return render(request, template_name, {'form': form, 'search_result': search_result, 'recent_concerts': recent_concerts})
+
+    return render(request, template_name, {'search_result': search_result, 'search_terms': search_terms})
 
 def about(request):
     ''' about MCA '''
