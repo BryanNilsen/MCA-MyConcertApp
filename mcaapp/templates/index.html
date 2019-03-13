@@ -2,9 +2,11 @@
 {% load static %}
 
 {% block content %}
+
 <!-- AUTHENTICATED USER VIEW -->
-  {% if user.is_authenticated %}
-  <!-- search bar functionality -->
+{% if user.is_authenticated %}
+
+<!-- search bar functionality -->
 <div class="search">
   <form method="get">
     <div class="flex space_evenly">
@@ -14,8 +16,8 @@
       <div class="search_band block">venue/city: {{ form.venueName}}</div>
       <div class="search_band"><button type="submit">find</button></div>
     </div>
-    </form>
-  </div>
+  </form>
+</div>
 
 <!-- page body under nav banner and search -->
 <div class="body_copy">
@@ -43,6 +45,23 @@
 
 <!-- UNAUTHENTICATED USER VIEW -->
   {% else %}
+
+
+    <!-- search bar functionality -->
+<div class="search">
+    <form method="get">
+      <div class="flex space_evenly">
+        {% csrf_token %}
+        <div class="search_band block">Concert Search:</div>
+        <div class="search_band block">artist: {{ form.artistName}}</div>
+        <div class="search_band block">venue/city: {{ form.venueName}}</div>
+        <div class="search_band"><button type="submit">find</button></div>
+      </div>
+    </form>
+  </div>
+
+<div class="body_copy">
+    {% include 'search/search.html'%}
   <h1>Recently added concerts</h1>
   {% if recent_concerts %}
   <h1>Here are the five most recently added concerts</h1>
@@ -62,6 +81,7 @@
   <p>What? There are no recent concerts</p>
   {% endif%}
 
+</div>
 
   {% endif %}
 

@@ -9,12 +9,20 @@
         <h4>Venue: {{ result.venue.name }}</h4>
         <h5>Date: {{ result.eventDate }}</h5>
 
+
+<!-- AUTHENTICATED USER VIEW -->
+{% if user.is_authenticated %}
+
         <!-- add concert to UserConcert table -->
             <form method="post" action="{% url 'mcaapp:concert_create' %}">
             {% csrf_token %}
             <input type="hidden" name="concert_id" value={{result.id}}>
             <button type="submit">add concert</button>
           </form>
+
+{% else %}
+<p>Log In or Register to add a concert</p>
+{% endif %}
 
       </div>
   {% endfor %}
