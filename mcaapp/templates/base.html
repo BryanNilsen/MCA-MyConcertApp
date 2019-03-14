@@ -5,60 +5,84 @@
 <head>
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'mcaapp/css/main.css' %}">
   <title>MCA - My Concert App - For those who have rocked, we salute you!</title>
 </head>
 
 <body>
-  {% if user.is_authenticated %}
-  <nav id="navigation" class="flex top_nav">
-    <!-- MCA logo in upper left navbar -->
-    <div class="nav">
-      <a href="{% url 'mcaapp:index' %}"><img src="{% static 'mcaapp/images/mca-logo-nav.png' %}" alt="MCA - My Concert App Logo" class="nav_logo"></a>
-      <a href="{% url 'mcaapp:about' %}">about</a>
-      <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
+
+{% if user.is_authenticated %}
+
+<!-- USER NAVBAR -->
+  <nav id="user_nav" class="flex user_nav">
+      <!-- main site nav on left -->
+    <div>
+      My Concert App >>
+      <a href="{% url 'mcaapp:index' %}">home</a> |
+      <a href="{% url 'mcaapp:about' %}">about</a> |
+      <a href="{% url 'mcaapp:gallery_public' %}">feed</a>
     </div>
-    <!-- user login status in upper right navbar :: ml class is margin left -->
-    <div class="nav ml">
+    <!-- user account nav on right > ml class = auto margin left, aligns everything to right -->
+    <div class="ml">
+      my account:
       <a href="{% url 'mcaapp:profile' %}">
-        <img src="/media/{{user.profile.profile_photo}}" class="user_icon">
         {{ user.username }}
-      </a>
-      <a href="{% url 'mcaapp:logout' %}" class="btn">logout</a>
+        <img src="/media/{{user.profile.profile_photo}}" class="user_icon">
+      </a> |
+      <a href="{% url 'mcaapp:logout' %}">logout</a>
     </div>
   </nav>
-<div class="banner">
-    <!-- subnav for authenticated users -->
-    <div class="nav sub_nav">
-      <a href="{% url 'mcaapp:concerts' %}">my concerts</a>
-      <a href="{% url 'mcaapp:gallery_user' %}">my gallery</a>
-    </div>
 
-    {% else %}
-    <nav id="navigation" class="flex top_nav">
+{% else %}
+<!-- TOP USER NAVIGATION login / sign up -->
+  <nav id="user_nav" class="flex user_nav">
+    <div>
+        My Concert App >>
+        <a href="{% url 'mcaapp:index' %}">home</a> |
+        <a href="{% url 'mcaapp:about' %}">about</a> |
+        <a href="{% url 'mcaapp:gallery_public' %}">feed</a>
+      </div>
+      <div class="ml">
+        <a href="{% url 'mcaapp:login' %}">Login</a> | <a href="{% url 'mcaapp:register' %}">Sign Up</a>
+      </div>
+  </nav>
+  {% endif %}
+
+  <nav id="navigation" class="flex top_nav">
       <!-- MCA logo in upper left navbar -->
       <div class="nav">
-          <a href="{% url 'mcaapp:index' %}"><img src="../static/mcaapp/images/mca-logo-nav.png" alt="MCA - My Concert App Logo" class="nav_logo"></a>
-          <a href="{% url 'mcaapp:about' %}">about</a>
-          <a href="{% url 'mcaapp:gallery_public' %}">gallery</a>
+        <a href="{% url 'mcaapp:index' %}"><img src="{% static 'mcaapp/images/mca-logo-nav.png' %}" alt="MCA - My Concert App Logo" class="nav_logo"></a>
       </div>
-      <div class="nav ml">
-        <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
-      </div>
+
+      <!-- Search Bar -->
+      <container class="nav_container">
+        <div class="sub_nav">
+            <a href="{% url 'mcaapp:concerts' %}">my concerts</a> |
+            <a href="{% url 'mcaapp:gallery_user' %}">my gallery</a>
+        </div>
+        <div class=" ml">
+            {% include 'search/search_bar.html'%}
+        </div>
+      </container>
     </nav>
-  <div class="banner">
-    <!-- subnav for unauthenticated users -->
-    <div class="sub_nav">
-      <a href="">browse concerts</a>
-    </div>
-    {% endif %}
-  </div>
 
-  <!-- Search Bar -->
-  {% include 'search/search_bar.html'%}
+      <div class="banner">
 
-  <!-- Body Content -->
-  {% block content %}{% endblock %}
+      <!-- subnav for authenticated users -->
+      <!-- <div class="nav sub_nav">
+          {% include 'search/search_bar.html'%}
+      </div> -->
 
+
+
+<!-- ENDS BANNER DIV -->
+</div>
+
+
+<!-- Body Content -->
+{% block content %}{% endblock %}
+
+{% include 'footer.html'%}
 </body>
 </html>

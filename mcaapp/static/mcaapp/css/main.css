@@ -1,8 +1,9 @@
 body {
-  margin: 0px;
-  background: rgb(15, 15, 15);
+  margin: 0px 10px;
+  /* background: rgb(15, 15, 15); */
+  background: rgb(0, 0, 0);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* general styling */
@@ -29,23 +30,46 @@ body {
 /* top banner */
 .banner {
   min-width: 400px;
-  min-height: 175px;
+  min-height: 200px;
   background-image: url( '/static/mcaapp/images/ween-banner.jpg' );
   background-size: cover;
+  margin-bottom: 20px;
 }
 
-.top_nav {
+.user_nav {
   min-width: 450px;
+  padding-right: 10px;
+  background: rgb(41, 41, 41);
+  /* border-bottom: 1px solid rgb(99, 0, 0); */
+  font-size: .9em;
+}
+
+.user_nav a {
+  color: rgb(150, 150, 150);
+  text-decoration: none;
+  margin: 0px 2px;
+  padding: 3px 3px;
+}
+
+.user_nav a:hover {
+  color: rgb(111, 245, 255);
+  /* background-color: black; */
+}
+
+
+.top_nav {
+  min-width: 750px;
 }
 .nav a {
   color: white;
   text-decoration: none;
-  padding: 3px 5px;
+  margin: 0px 2px;
+  padding: 3px 3px;
 }
 
 .nav a:hover {
   color: rgba(101, 218, 226, 0.9);
-  background-color: black;
+  /* background-color: black; */
 }
 
 .banner_text {
@@ -59,35 +83,40 @@ body {
 
 /* top navigation */
 nav {
-  padding: 10px;
+  padding: 5px;
   background: black;
-  color: white;
+  color: rgb(156, 156, 156);
   font-size: 1em;
 }
 
 .nav_logo {
   font-size: 2.5em;
-  width: 175px;
+  width: 160px;
   margin: 5px 10px 0px 0px;
+}
+
+.nav_container {
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* sub navigation */
 .sub_nav {
-  text-align: right;
   padding: 5px;
-  /* background: rgba(0, 0, 0, 0.3); */
-
-  background: linear-gradient(
-    to bottom,
-    black,
-    rgba(255, 0, 0, 0)
-  );
-  color: white;
-  font-size: 1em
+  color: rgb(44, 44, 44);
+  font-size: 1.8em;
 }
 
 .sub_nav a {
   padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  margin: 0px 2px;
+  padding: 3px 3px;
+}
+
+.sub_nav a:hover {
+  color: rgba(101, 218, 226, 0.9);
 }
 
 .btn {
@@ -113,14 +142,12 @@ nav {
 
 .search {
   margin:0px;
-  padding: 3px 10px;
-  background: rgb(8, 52, 75);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1em;
-  border-top: 1px dashed rgba(255, 255, 255, 0.2);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 3px 5px;
+  font-size: .8em;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
 .search_band {
+  margin-top: 5px;
   padding: 3px 8px;
   /* background: rgb(5, 31, 70); */
   color: rgba(255, 255, 255, 0.7);
@@ -131,13 +158,13 @@ nav {
   border: none;
   font-size: .9em;
   background: rgba(255, 255, 255, 0.5);
-  width: 100px;
+  width: 90px;
   padding: 2px 5px;
 }
 
 .search button {
   border-radius: 10px;
-  background: rgb(8, 52, 75);
+  background: rgb(44, 44, 44);
   font-size: .9em;
   color: rgba(255, 255, 255, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.5);
@@ -153,6 +180,10 @@ nav {
   margin-top: 5px;
   color: rgb(124, 209, 255);
   text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
+}
+
+.search_card img {
+  border: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 /* .search_card a {
@@ -196,9 +227,10 @@ nav {
 
 .gallery_child {
   margin: 10px;
-  min-width: 175px;
+  min-width: 100px;
+  max-width: 400px;
   flex-grow: 1;
-  width: calc(100% * (1/4) - 20px);
+  width: calc(100% * (1/5) - 20px);
 }
 
 .gallery_child img {
@@ -226,4 +258,42 @@ nav {
 
 .setlist li {
   list-style: none;
+}
+
+
+
+
+/* ABOUT */
+.about {
+  padding: 5px 10px;
+  background: whitesmoke;
+  color: rgb(10, 10, 10);
+}
+
+.about h1 {
+  margin: 5px 0px;
+}
+.about h2 {
+  margin: 5px 0px;
+}
+
+
+/* FOOTER */
+.footer {
+  margin-top: 10px;
+  min-width: 450px;
+  padding: 10px;
+  background: rgb(41, 41, 41);
+  font-size: .9em;
+}
+
+.footer a {
+  color: rgb(150, 150, 150);
+  text-decoration: none;
+  margin: 0px 2px;
+  padding: 3px 3px;
+}
+
+.footer a:hover {
+  color: rgb(111, 245, 255);
 }

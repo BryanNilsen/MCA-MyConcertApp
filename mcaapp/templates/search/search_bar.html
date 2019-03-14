@@ -2,10 +2,10 @@
     <form method="get" action="{% url 'mcaapp:search'%}">
       <div class="flex space_evenly">
         {% csrf_token %}
-        <div class="search_band block">Concert Search:</div>
+        <div class="search_band block">SEARCH CONCERTS:</div>
         <div class="search_band block">artist: <input type="text" id="artistName" name="artistName" required></div>
-        <div class="search_band block">venue/city: <input type="text" id="venueName" name="venueName"></div>
-        <div class="search_band"><button type="submit">find</button></div>
+        <div class="search_band block">location: <input type="text" id="venueName" name="venueName"></div>
+        <div class="search_band"><button type="submit">GO!</button></div>
       </div>
     </form>
   </div>

@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+
 <h1>My Concerts</h1>
 <!-- the following will show if the user has added concerts -->
 {% if concerts %}
@@ -13,7 +16,7 @@
     <p>Rating: {{concert.rating}} out of 11</p>
     {% if concert.photos %}
     {% for photo in concert.photos %}
-    <a href="/media/{{photo.media}}"><img src="/media/{{photo.media}}" width="10%"></a>
+    <a href="/media/{{photo.media}}"><img src="/media/{{photo.media}}" height="50px"></a>
     {% endfor %}
     {% endif %}
     <div>
@@ -28,4 +31,7 @@
   <p><a href="{% url 'mcaapp:index' %}">SEARCH HERE</a> to begin adding concerts</p>
 {% endif%}
 
+{% else %}
+<h1>you have to be logged in</h1>
+{% endif %}
 {% endblock %}
