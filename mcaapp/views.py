@@ -213,19 +213,21 @@ def login_user(request):
 
     return render(request, 'login.html', {}, context)
 
+
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
-
     # Take the user back to the homepage. Is there a way to not hard code
     # in the URL in redirects?????
     return HttpResponseRedirect('/')
 
-def get_concert(concert_id):
+
+def get_concert(setlistId):
 # API LOGIC HERE to PING API WITH CONCERT ID
-    url = 'https://api.setlist.fm/rest/1.0/setlist/{concert_id}'
+    endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
+    url = endpoint.format(setlistId=setlistId)
     headers = {
       'x-api-key': settings.SETLIST_FM_API_KEY,
       'Accept': 'application/json'
@@ -252,27 +254,26 @@ def concert_list(request):
     for concert in concerts:
       # get concert info from setlist api
         setlistId = concert.concert_id
-        endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
-        url = endpoint.format(setlistId=setlistId)
-        headers = {
-          'x-api-key': settings.SETLIST_FM_API_KEY,
-          'Accept': 'application/json'
-          }
-        response = requests.get(url, headers=headers)
-        concert.api = response.json()
+        concert.api = get_concert(setlistId)
+
+      # TODO: NEED TO CREATE CONDITIONAL IF ABOVE GET_CONCERT RETURNS A 404
+        # if response.status_code == 200:  # SUCCESS
+        #     result = response.json()
+        #     result['success'] = True
+        #     # set the api results as a key on the concert object
+        #     concert.api = result
+
         eventDate = concert.api['eventDate']
         newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+        # use sortdate for returning concerts sorted by date
+        concert.sortDate = newDate
         concert.newDate = newDate.strftime('%B %d, %Y')
 
         concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
 
-        if response.status_code == 200:  # SUCCESS
-            result = response.json()
-            result['success'] = True
-            # set the api results as a key on the concert object
-            concert.api = result
 
     template_name = 'concerts/list.html'
+    concerts = sorted(concerts, key=lambda x:x.sortDate, reverse=True)
 
     return render(request, template_name, {'concerts': concerts})
 
@@ -331,7 +332,7 @@ def concert_update(request, user_concert_id):
     user_concert_to_be_edited = get_object_or_404(UserConcert, pk=user_concert_id)
 
     # get concert info from API
-    # REFACTOR to use GET CONCERT METHOD above TO CALL AND PASS SETLIST ID (concerts.concert_id)
+    # TODO REFACTOR BELOW to use GET CONCERT METHOD above TO CALL AND PASS SETLIST ID (concerts.concert_id)
     concerts = UserConcert.objects.get(pk=user_concert_id)
     setlistId = concerts.concert_id
     endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
