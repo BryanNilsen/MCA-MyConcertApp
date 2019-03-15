@@ -6,31 +6,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* general styling */
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.space_evenly {
-  justify-content: center;
-}
-
-.ml {
-  margin-left: auto;
-}
-.center {
-  text-align: center;
-}
-
-.block {
-  display: inline-block;
-}
 
 /* top banner */
 .banner {
   min-width: 400px;
-  min-height: 200px;
+  min-height: 250px;
   background-image: url( '/static/mcaapp/images/ween-banner.jpg' );
   background-size: cover;
   margin-bottom: 20px;
@@ -221,7 +201,7 @@ nav {
   margin: 0px 5px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid gray;
   vertical-align: middle;
 }
 
@@ -302,6 +282,7 @@ nav {
   padding: 10px;
   background: rgb(41, 41, 41);
   font-size: .9em;
+  color: rgb(150, 150, 150);
 }
 
 
@@ -314,4 +295,27 @@ nav {
 
 .footer a:hover {
   color: rgb(111, 245, 255);
+}
+
+
+
+/* general styling */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.space_evenly {
+  justify-content: center;
+}
+
+.ml {
+  margin-left: auto;
+}
+.center {
+  text-align: center;
+}
+
+.block {
+  display: inline-block;
 }

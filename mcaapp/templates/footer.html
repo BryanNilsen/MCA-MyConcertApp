@@ -1,6 +1,20 @@
-<div class="footer">
-    MCA My Concert App >>
-    <a href="{% url 'mcaapp:index' %}">home</a> |
-    <a href="{% url 'mcaapp:about' %}">about</a> |
-    <a href="{% url 'mcaapp:gallery_public' %}">feed</a>
+<div class="footer center">
+  <div>
+    <p>
+      <a href="{% url 'mcaapp:index' %}">home</a> |
+      <a href="{% url 'mcaapp:about' %}">about</a> |
+      <a href="">concerts</a> |
+      <a href="{% url 'mcaapp:gallery_public' %}">photos</a> |
+      <a href="{% url 'mcaapp:faq' %}">FAQ</a>
+    </p>
+    <p>
+    <a href="{% url 'mcaapp:login' %}">Login</a> | <a href="{% url 'mcaapp:register' %}">Sign Up</a>
+    </p>
+  </div>
+  <div>
+    <p>Search functionality and Concert Info powered by <a href="https://www.setlist.fm/" target="blank">Setlist.fm</a>
+      <br/>
+      © 2019 - MCA My Concert App
+    </p>
+  </div>
 </div>

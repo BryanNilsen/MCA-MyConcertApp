@@ -77,8 +77,13 @@ def search(request):
     return render(request, template_name, {'search_result': search_result, 'search_terms': search_terms})
 
 def about(request):
-    ''' about MCA '''
+    ''' displays information about MCA '''
     template_name = 'about.html'
+    return render(request, template_name)
+
+def faq(request):
+    ''' displays frequently asked questions '''
+    template_name = 'faq.html'
     return render(request, template_name)
 
 
