@@ -6,7 +6,9 @@ from . import views
 app_name = "mcaapp"
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^about$', views.about, name='about'),
+    path('search/', views.search, name='search'),
+    path('about/', views.about, name='about'),
+    path('faq/', views.faq, name='faq'),
     url(r'^login$', views.login_user, name='login'),
     url(r'^logout$', views.user_logout, name='logout'),
     url(r'^register$', views.register, name='register'),

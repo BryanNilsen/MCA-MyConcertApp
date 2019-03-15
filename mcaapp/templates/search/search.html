@@ -1,7 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
 
+{% block content %}
 <!-- display search results -->
 {% if search_result %}
-  <p>Results:</p>
+  <p>Search Results for: "{{search_terms.artistName}}"
+    {% if search_terms.venueName != '' %}
+    + "{{search_terms.venueName}}"
+    {% endif %}
+  </p>
   {% if search_result.success %}
     {% for result in search_result.setlist %}
       <div class="search_card">
@@ -9,12 +16,21 @@
         <h4>Venue: {{ result.venue.name }}</h4>
         <h5>Date: {{ result.eventDate }}</h5>
 
+
+<!-- AUTHENTICATED USER VIEW -->
+{% if user.is_authenticated %}
+
         <!-- add concert to UserConcert table -->
             <form method="post" action="{% url 'mcaapp:concert_create' %}">
             {% csrf_token %}
             <input type="hidden" name="concert_id" value={{result.id}}>
             <button type="submit">add concert</button>
           </form>
+
+{% else %}
+
+<p>Log In or Register to add a concert</p>
+{% endif %}
 
       </div>
   {% endfor %}
@@ -24,3 +40,6 @@
     <p><em>{{ search_result.message }}</em></p>
   {% endif %}
 {% endif %}
+<p>Don't see the concert you're looking for?</p>
+<p>Try a more specific search. It's possible your concert hasn't been recorded yet. You can add it over at <a href="https://www.setlist.fm" target="blank">setlist.fm</a></p>
+{% endblock content %}

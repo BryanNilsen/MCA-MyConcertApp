@@ -4,6 +4,9 @@
 {% block content %}
 
 
+
+{% if user.is_authenticated %}
+
 <h1>Photo Gallery</h1>
 
 {% if concerts%}
@@ -21,5 +24,11 @@
 {% else%}
     <h2>No Photos Uploaded</h2>
 {% endif %}
+
+{% else %}
+<h1>Oops!</h1>
+<h2>You have to be logged in to view your photos.</h2>
+<h3><a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Sign Up</a> now to continue (it's free!)</h3>
+{% endif%}
 
 {% endblock %}

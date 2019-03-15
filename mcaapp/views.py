@@ -34,11 +34,17 @@ from mcaapp.models import UserConcertMedia
 def index(request):
     ''' main landing page for all users / includes search functionality '''
 
+    user = request.user
+    user_concerts = UserConcert.objects.filter(user_id=user.id)
+
+
     template_name = 'index.html'
     recent_concerts = UserConcert.objects.all().order_by('-id')[:5]
 
+
+
     for concert in recent_concerts:
-      # get concert info from setlist api
+    # get concert info from setlist api
         setlistId = concert.concert_id
         endpoint = 'https://api.setlist.fm/rest/1.0/setlist/{setlistId}'
         url = endpoint.format(setlistId=setlistId)
@@ -51,21 +57,33 @@ def index(request):
         eventDate = concert.api['eventDate']
         newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
         concert.newDate = newDate.strftime('%B %d, %Y')
-        print("CONCERT DATE", newDate.strftime('%B-%d'))
     print("RECENT CONCERTS", recent_concerts)
+
+
+    return render(request, template_name, {'recent_concerts': recent_concerts, 'user_concerts': user_concerts})
+
+def search(request):
+    ''' displays search results '''
+    # get keywords searched to display in template
+    search_terms = request.GET
+    template_name = 'search/search.html'
 
     search_result = {}
     if 'artistName' in request.GET:
         form = ConcertSearchForm(request.GET)
         if form.is_valid():
             search_result = form.search()
-    else:
-        form = ConcertSearchForm()
-    return render(request, template_name, {'form': form, 'search_result': search_result, 'recent_concerts': recent_concerts})
+
+    return render(request, template_name, {'search_result': search_result, 'search_terms': search_terms})
 
 def about(request):
-    ''' about MCA '''
+    ''' displays information about MCA '''
     template_name = 'about.html'
+    return render(request, template_name)
+
+def faq(request):
+    ''' displays frequently asked questions '''
+    template_name = 'faq.html'
     return render(request, template_name)
 
 
@@ -241,6 +259,10 @@ def concert_list(request):
           'Accept': 'application/json'
           }
         response = requests.get(url, headers=headers)
+        concert.api = response.json()
+        eventDate = concert.api['eventDate']
+        newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+        concert.newDate = newDate.strftime('%B %d, %Y')
 
         concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
 
@@ -278,9 +300,13 @@ def concert_detail(request, user_concert_id):
       'Accept': 'application/json'
       }
     response = requests.get(url, headers=headers)
-    user_concert.api = response.json()
 
-    return render(request, template_name, {'concert': user_concert,})
+    user_concert.api = response.json()
+    eventDate = user_concert.api['eventDate']
+    newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+    user_concert.newDate = newDate.strftime('%B %d, %Y')
+
+    return render(request, template_name, {'concert': user_concert})
 
 
 def concert_create(request):

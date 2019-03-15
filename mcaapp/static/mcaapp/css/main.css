@@ -1,48 +1,55 @@
 body {
-  margin: 0px;
-  background: rgb(15, 15, 15);
+  margin: 0px 10px;
+  /* background: rgb(15, 15, 15); */
+  background: rgb(0, 0, 0);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* general styling */
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.space_evenly {
-  justify-content: center;
-}
-
-.ml {
-  margin-left: auto;
-}
-.center {
-  text-align: center;
-}
-
-.block {
-  display: inline-block;
-}
 
 /* top banner */
 .banner {
   min-width: 400px;
   min-height: 250px;
-  background-image: url( '/static/mcaapp/images/concert-banner.jpg' );
+  background-image: url( '/static/mcaapp/images/ween-banner.jpg' );
   background-size: cover;
+  margin-bottom: 20px;
 }
 
-.banner a {
+.user_nav {
+  min-width: 450px;
+  padding-right: 10px;
+  background: rgb(41, 41, 41);
+  /* border-bottom: 1px solid rgb(99, 0, 0); */
+  font-size: .9em;
+}
+
+.user_nav a {
+  color: rgb(150, 150, 150);
+  text-decoration: none;
+  margin: 0px 2px;
+  padding: 3px 3px;
+}
+
+.user_nav a:hover {
+  color: rgb(111, 245, 255);
+  /* background-color: black; */
+}
+
+
+.top_nav {
+  min-width: 750px;
+}
+.nav a {
   color: white;
   text-decoration: none;
-  padding: 3px 5px;
+  margin: 0px 2px;
+  padding: 3px 3px;
 }
 
-.banner a:hover {
+.nav a:hover {
   color: rgba(101, 218, 226, 0.9);
-  background-color: black;
+  /* background-color: black; */
 }
 
 .banner_text {
@@ -56,27 +63,39 @@ body {
 
 /* top navigation */
 nav {
-  padding: 10px;
+  padding: 5px;
   background: black;
-  color: white;
+  color: rgb(156, 156, 156);
   font-size: 1em;
 }
 
 .nav_logo {
   font-size: 2.5em;
+  width: 160px;
+  margin: 5px 10px 0px 0px;
+}
+
+.nav_container {
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* sub navigation */
 .sub_nav {
-  text-align: right;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  font-size: 1em
+  padding: 5px 0px;
+  color: rgb(44, 44, 44);
+  font-size: 1.8em;
 }
 
 .sub_nav a {
   padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  padding: 3px 0px;
+}
+
+.sub_nav a:hover {
+  color: rgba(101, 218, 226, 0.9);
 }
 
 .btn {
@@ -95,38 +114,39 @@ nav {
   border: 1px solid black;
   padding: 5px 10px;
   background: rgb(8, 52, 75);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   min-width: 400px;
   border-radius: 5px;
 }
 
 .search {
   margin:0px;
-  padding: 3px 10px;
-  background: rgb(8, 52, 75);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1em;
-  border-top: 1px dashed rgba(255, 255, 255, 0.2);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 3px 0px;
+  font-size: .9em;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
+
 .search_band {
-  padding: 3px 8px;
+  margin-top: 5px;
+  padding: 3px 0px;
   /* background: rgb(5, 31, 70); */
   color: rgba(255, 255, 255, 0.7);
 }
 
+
 .search input {
-  border-radius: 2px;
-  border: none;
+  border-radius: 4px;
+  border: 2px solid rgb(65, 65, 65);
   font-size: .9em;
-  background: rgba(255, 255, 255, 0.5);
-  width: 100px;
+  background: rgba(255, 255, 255, 0.7);
+  width: 90px;
   padding: 2px 5px;
+  margin-right: 10px;
 }
 
 .search button {
   border-radius: 10px;
-  background: rgb(8, 52, 75);
+  background: rgb(44, 44, 44);
   font-size: .9em;
   color: rgba(255, 255, 255, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.5);
@@ -139,30 +159,49 @@ nav {
 }
 
 .search_card h1 {
-  margin-top: 5px;
+  margin: 5px 0px;
   color: rgb(124, 209, 255);
   text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
 }
-
-/* .search_card a {
-  color: white;
-  text-decoration: none;
-  padding: 3px 5px;
+.search_card h2 {
+  margin: 5px 0px;
+  color: rgb(124, 209, 255);
+}
+.search_card h3 {
+  margin: 5px 0px;
 }
 
-.search_card a:hover {
-  color: red;
-  text-decoration: underline;
-  text-underline-position: under;
-  background-color: black;
-} */
+.search_card button {
+  border-radius: 10px;
+  background: rgb(44, 44, 44);
+  font-size: .9em;
+  color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.search_card a {
+  text-decoration: none;
+  color: white;
+}
+.search_card button:hover {
+  color: rgba(101, 218, 226, 0.9);
+  background: rgba(0, 0, 0, .5);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+
+
+.img_border {
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
 
 /* images */
 .user_icon {
   margin: 0px 5px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid gray;
   vertical-align: middle;
 }
 
@@ -185,9 +224,10 @@ nav {
 
 .gallery_child {
   margin: 10px;
-  min-width: 175px;
+  min-width: 100px;
+  max-width: 400px;
   flex-grow: 1;
-  width: calc(100% * (1/4) - 20px);
+  width: calc(100% * (1/5) - 20px);
 }
 
 .gallery_child img {
@@ -204,7 +244,7 @@ nav {
 .setlist {
   margin: 20px;
   padding: 10px;
-  background: whitesmoke;
+  /* background: whitesmoke; */
   background-image: url( '/static/mcaapp/images/linedpaper.png' );
   color: black;
   font-family: 'Permanent Marker', cursive;
@@ -215,4 +255,67 @@ nav {
 
 .setlist li {
   list-style: none;
+}
+
+
+
+
+/* ABOUT */
+.about {
+  padding: 5px 10px;
+  background: rgb(207, 207, 207);
+  color: rgb(10, 10, 10);
+}
+
+.about h1 {
+  margin: 5px 0px;
+}
+.about h2 {
+  margin: 5px 0px;
+}
+
+
+/* FOOTER */
+.footer {
+  margin-top: 10px;
+  min-width: 450px;
+  padding: 10px;
+  background: rgb(41, 41, 41);
+  font-size: .9em;
+  color: rgb(150, 150, 150);
+}
+
+
+.footer a {
+  color: rgb(150, 150, 150);
+  text-decoration: none;
+  margin: 0px 2px;
+  padding: 3px 3px;
+}
+
+.footer a:hover {
+  color: rgb(111, 245, 255);
+}
+
+
+
+/* general styling */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.space_evenly {
+  justify-content: center;
+}
+
+.ml {
+  margin-left: auto;
+}
+.center {
+  text-align: center;
+}
+
+.block {
+  display: inline-block;
 }
