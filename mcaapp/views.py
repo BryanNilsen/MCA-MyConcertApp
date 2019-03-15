@@ -34,8 +34,14 @@ from mcaapp.models import UserConcertMedia
 def index(request):
     ''' main landing page for all users / includes search functionality '''
 
+    user = request.user
+    user_concerts = UserConcert.objects.filter(user_id=user.id)
+
+
     template_name = 'index.html'
     recent_concerts = UserConcert.objects.all().order_by('-id')[:5]
+
+
 
     for concert in recent_concerts:
     # get concert info from setlist api
@@ -51,11 +57,10 @@ def index(request):
         eventDate = concert.api['eventDate']
         newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
         concert.newDate = newDate.strftime('%B %d, %Y')
-        print("CONCERT DATE", newDate.strftime('%B-%d'))
     print("RECENT CONCERTS", recent_concerts)
 
 
-    return render(request, template_name, {'recent_concerts': recent_concerts})
+    return render(request, template_name, {'recent_concerts': recent_concerts, 'user_concerts': user_concerts})
 
 def search(request):
     ''' displays search results '''
@@ -249,6 +254,10 @@ def concert_list(request):
           'Accept': 'application/json'
           }
         response = requests.get(url, headers=headers)
+        concert.api = response.json()
+        eventDate = concert.api['eventDate']
+        newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+        concert.newDate = newDate.strftime('%B %d, %Y')
 
         concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
 
@@ -286,9 +295,13 @@ def concert_detail(request, user_concert_id):
       'Accept': 'application/json'
       }
     response = requests.get(url, headers=headers)
-    user_concert.api = response.json()
 
-    return render(request, template_name, {'concert': user_concert,})
+    user_concert.api = response.json()
+    eventDate = user_concert.api['eventDate']
+    newDate = datetime.strptime(eventDate, '%d-%m-%Y').date()
+    user_concert.newDate = newDate.strftime('%B %d, %Y')
+
+    return render(request, template_name, {'concert': user_concert})
 
 
 def concert_create(request):

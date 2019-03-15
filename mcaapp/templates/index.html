@@ -12,10 +12,15 @@
 <!-- page body under nav banner and search -->
 <div class="body_copy">
   <h1>Welcome back {{ user.username }}!</h1>
+  <h2>You've logged {{user_concerts|length}}
+    {% if user_concerts|length != 1%} concerts.
+    {% else %} concert.
+    {% endif %}
+  </h2>
 
   <!-- recent concerts list -->
   {% if recent_concerts %}
-  <h1>Here are the five most recently added concerts</h1>
+  <h3>Here are five recently added concerts to MCA</h3>
 
   {% for concert in recent_concerts %}
   <div class="search_card">

@@ -102,7 +102,7 @@ nav {
 
 /* sub navigation */
 .sub_nav {
-  padding: 5px;
+  padding: 5px 0px;
   color: rgb(44, 44, 44);
   font-size: 1.8em;
 }
@@ -111,8 +111,7 @@ nav {
   padding: 5px 10px;
   color: white;
   text-decoration: none;
-  margin: 0px 2px;
-  padding: 3px 3px;
+  padding: 3px 0px;
 }
 
 .sub_nav a:hover {
@@ -135,31 +134,34 @@ nav {
   border: 1px solid black;
   padding: 5px 10px;
   background: rgb(8, 52, 75);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   min-width: 400px;
   border-radius: 5px;
 }
 
 .search {
   margin:0px;
-  padding: 3px 5px;
-  font-size: .8em;
+  padding: 3px 0px;
+  font-size: .9em;
   border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
+
 .search_band {
   margin-top: 5px;
-  padding: 3px 8px;
+  padding: 3px 0px;
   /* background: rgb(5, 31, 70); */
   color: rgba(255, 255, 255, 0.7);
 }
 
+
 .search input {
-  border-radius: 2px;
-  border: none;
+  border-radius: 4px;
+  border: 2px solid rgb(65, 65, 65);
   font-size: .9em;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.7);
   width: 90px;
   padding: 2px 5px;
+  margin-right: 10px;
 }
 
 .search button {
@@ -177,27 +179,42 @@ nav {
 }
 
 .search_card h1 {
-  margin-top: 5px;
+  margin: 5px 0px;
   color: rgb(124, 209, 255);
   text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
 }
+.search_card h2 {
+  margin: 5px 0px;
+  color: rgb(124, 209, 255);
+}
+.search_card h3 {
+  margin: 5px 0px;
+}
 
-.search_card img {
+.search_card button {
+  border-radius: 10px;
+  background: rgb(44, 44, 44);
+  font-size: .9em;
+  color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.search_card a {
+  text-decoration: none;
+  color: white;
+}
+.search_card button:hover {
+  color: rgba(101, 218, 226, 0.9);
+  background: rgba(0, 0, 0, .5);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+
+
+.img_border {
   border: 2px solid rgba(0, 0, 0, 0.5);
 }
 
-/* .search_card a {
-  color: white;
-  text-decoration: none;
-  padding: 3px 5px;
-}
-
-.search_card a:hover {
-  color: red;
-  text-decoration: underline;
-  text-underline-position: under;
-  background-color: black;
-} */
 
 /* images */
 .user_icon {
@@ -247,7 +264,7 @@ nav {
 .setlist {
   margin: 20px;
   padding: 10px;
-  background: whitesmoke;
+  /* background: whitesmoke; */
   background-image: url( '/static/mcaapp/images/linedpaper.png' );
   color: black;
   font-family: 'Permanent Marker', cursive;
@@ -266,7 +283,7 @@ nav {
 /* ABOUT */
 .about {
   padding: 5px 10px;
-  background: whitesmoke;
+  background: rgb(207, 207, 207);
   color: rgb(10, 10, 10);
 }
 
@@ -286,6 +303,7 @@ nav {
   background: rgb(41, 41, 41);
   font-size: .9em;
 }
+
 
 .footer a {
   color: rgb(150, 150, 150);
