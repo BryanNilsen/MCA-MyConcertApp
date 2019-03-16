@@ -13,7 +13,7 @@
     {% for result in search_result.setlist %}
       <div class="search_card">
         <h2>{{ result.artist.name }}</h2>
-        <h4>Venue: {{ result.venue.name }}</h4>
+        <h4>{{ result.venue.name }} - {{result.venue.city.name}}, {{result.venue.city.stateCode}} </h4>
         <h5>Date: {{ result.eventDate }}</h5>
 
 

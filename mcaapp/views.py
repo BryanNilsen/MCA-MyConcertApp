@@ -269,12 +269,12 @@ def concert_list(request):
         concert.sortDate = newDate
         concert.newDate = newDate.strftime('%B %d, %Y')
 
+        # get photos from media table
         concert.photos = UserConcertMedia.objects.filter(user_concert_id=concert.id)
 
 
     template_name = 'concerts/list.html'
     concerts = sorted(concerts, key=lambda x:x.sortDate, reverse=True)
-
     return render(request, template_name, {'concerts': concerts})
 
 
