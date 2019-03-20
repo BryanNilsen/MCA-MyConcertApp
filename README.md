@@ -9,12 +9,7 @@ MCA was written in Python with the Django framework.
 
 MCA was developed using VSCode, AdobeXD, GitHub, SQLite, DB Browser, and Postman
 
-<img src="/mcaapp/static/mcaapp/images/vscode-logo.png" height="75" alt="VS Code Logo"/>
-<img src="/mcaapp/static/mcaapp/images/AdobeXD-logo.png" height="75" alt="Adobe XD Logo"/>
-<img src="/mcaapp/static/mcaapp/images/github-logo.png" height="75" alt="Github Logo"/>
-<img src="/mcaapp/static/mcaapp/images/sqlite-logo.png" height="75" alt="SQLite Logo"/>
-<img src="/mcaapp/static/mcaapp/images/dbbrowser-logo.png" height="75" alt="DB Browser Logo"/>
-<img src="/mcaapp/static/mcaapp/images/postman-logo.png" height="75" alt="Postman Logo"/>
+<img src="/mcaapp/static/mcaapp/images/vscode-logo.png" height="75" alt="VS Code Logo"/><img src="/mcaapp/static/mcaapp/images/AdobeXD-logo.png" height="75" alt="Adobe XD Logo"/><img src="/mcaapp/static/mcaapp/images/github-logo.png" height="75" alt="Github Logo"/><img src="/mcaapp/static/mcaapp/images/sqlite-logo.png" height="75" alt="SQLite Logo"/><img src="/mcaapp/static/mcaapp/images/dbbrowser-logo.png" height="75" alt="DB Browser Logo"/><img src="/mcaapp/static/mcaapp/images/postman-logo.png" height="75" alt="Postman Logo"/>
 
 
 ## Instructions for Installing MCA
@@ -48,7 +43,7 @@ Once you've updated both the Secret Key and API key, there's two more final step
 1. Open the .env_template file to ensure both the Secret Key and API key have your new keys
 1. Rename the .env_template file to .env by removing the `_template`
 
-CONGRATULATIONS!! You are ready to begin working with the MCA App!
+### CONGRATULATIONS!! You are ready to begin working with the MCA App!
 
 ## MCA ERD - Entity Relationship Diagram
 
