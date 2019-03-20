@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+
 # the following is used to store the api key
 from decouple import config
 
@@ -21,8 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^s22)du9di6^mf7%oy&)z_x0ur30(#3l$qy85xm+4a&+5at99('
+# SECURITY WARNING: keep this secret key used in production secret! DO NOT PUBLISH KEY ON GITHUB
+# key stored in .env
+SECRET_KEY = config('SETLIST_FM_API_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,5 +127,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# API Key
+# API Key stored in .env
 SETLIST_FM_API_KEY = config('SETLIST_FM_API_KEY', default='')
