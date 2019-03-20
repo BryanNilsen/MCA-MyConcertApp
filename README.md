@@ -5,8 +5,7 @@ MCA - My Concert App was developed for concert-goers to quickly find concerts th
 ## Technologies Used
 MCA was written in Python with the Django framework.
 
-<img src="/mcaapp/static/mcaapp/images/python-logo.svg" height="75" alt="Python Logo"/>
-<img src="/mcaapp/static/mcaapp/images/django-logo.svg" height="75" alt="Django Logo"/>
+<img src="/mcaapp/static/mcaapp/images/python-logo.svg" height="75" alt="Python Logo"/><img src="/mcaapp/static/mcaapp/images/django-logo.svg" height="75" alt="Django Logo"/>
 
 MCA was developed using VSCode, AdobeXD, GitHub, SQLite, DB Browser, and Postman
 
@@ -59,6 +58,8 @@ CONGRATULATIONS!! You are ready to begin working with the MCA App!
 
 
 ## Thanks:
+NSS Instructors: Joe Shepherd, Kimmy Bird, Brenda Long
+
 Login/Registration Functionality Boilerplate Code provided by Joe Shepherd and Steve Brownlee
-Joe Shepherd, Kimmy Bird, Brenda Long
+
 [Cohort 28](https://nss-day-cohort-28.github.io/Class-Website/)
