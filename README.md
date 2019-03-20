@@ -4,9 +4,17 @@ MCA - My Concert App was developed for concert-goers to quickly find, add, and v
 
 ## Technologies Used
 MCA was written in Python with the Django framework.
-![Python Logo](/mcaapp/static/mcaapp/images/python-logo.svg)
-<img src="/mcaapp/static/mcaapp/images/python-logo.svg" width="100" />
-MCA was developed using VSCode, AdobeXD, GitHub and the Setlist.fm API
+<img src="/mcaapp/static/mcaapp/images/python-logo.svg" width="100" alt="Python Logo"/>
+<img src="/mcaapp/static/mcaapp/images/django-logo.svg" width="100" alt="Django Logo"/>
+
+MCA was developed using VSCode, AdobeXD, GitHub and the Setlist.fm API DB Browser for SQLite Database
+Postman - api queries
+<img src="/mcaapp/static/mcaapp/images/vscode-logo.png" width="100" alt="VS Code Logo"/>
+<img src="/mcaapp/static/mcaapp/images/AdobeXD-logo.png" width="100" alt="Adobe XD Logo"/>
+<img src="/mcaapp/static/mcaapp/images/github-logo.png" width="100" alt="Github Logo"/>
+<img src="/mcaapp/static/mcaapp/images/postman-logo.png" width="100" alt="Postman Logo"/>
+<img src="/mcaapp/static/mcaapp/images/dbbrowser-logo.png" width="100" alt="DB Browser Logo"/>
+<img src="/mcaapp/static/mcaapp/images/sqlite-logo.png" width="100" alt="SQLite Logo"/>
 
 
 ## Instructions for Installing MCA
@@ -18,15 +26,10 @@ MCA was developed using VSCode, AdobeXD, GitHub and the Setlist.fm API
 * run `pip install -r requirements.txt`
 
 
-## MCA ERD:
-![ERD](MCA-ERD.png)
+## MCA ERD - Entity Relationship Diagram
+![ERD](MCA-ERD.svg)
 
 
-Resources used in the development of this application:
-DB Browser
-Postman - api queries
-
-```pip install -r requirements.txt```
 
 ## Functionality:
 User registration (forked from Steve and Joe)
