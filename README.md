@@ -1,5 +1,22 @@
 # MCA - My Concert App
-This web application is the source code for My Concert App. It is written in Python with the Django framework.
+MCA - My Concert App was developed for concert-goers to quickly find, add, and view all of the shows they attend, while adding the extra functionality to rate shows, add notes, and upload photos to personalize the experience.
+
+
+## Technologies Used
+MCA was written in Python with the Django framework.
+![Python Logo](/mcaapp/static/mcaapp/images/python-logo.svg)
+<img src="/mcaapp/static/mcaapp/images/python-logo.svg" width="100" />
+MCA was developed using VSCode, AdobeXD, GitHub and the Setlist.fm API
+
+
+## Instructions for Installing MCA
+* Navigate to the directory in which you want MCA to reside
+* run `git clone git@github.com:BryanNilsen/MCA-MyConcertApp.git`
+* run `cd MCA-MyConcertApp`
+* run `virtualenv env` to create a virtual environment within that directory
+* run `source env/bin/activate` to initialize a virtual environment (run `deactivate` to exit environment)
+* run `pip install -r requirements.txt`
+
 
 ## MCA ERD:
 ![ERD](MCA-ERD.png)
@@ -8,6 +25,8 @@ This web application is the source code for My Concert App. It is written in Pyt
 Resources used in the development of this application:
 DB Browser
 Postman - api queries
+
+```pip install -r requirements.txt```
 
 ## Functionality:
 User registration (forked from Steve and Joe)
