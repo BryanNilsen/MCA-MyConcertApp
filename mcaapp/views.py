@@ -153,7 +153,6 @@ def update_profile(request):
 
             # if clear photo checkbox is ticked
             if 'profile_photo-clear' in request.POST:
-                print("profile photo was cleared")
                 profile.profile_photo.delete()
                 profile.profile_photo = None
 

@@ -29,7 +29,11 @@
       my account:
       <a href="{% url 'mcaapp:profile' %}">
         {{ user.username }}
+        {% if user.profile.profile_photo %}
         <img src="/media/{{user.profile.profile_photo}}" class="user_icon">
+        {% else%}
+        <img src="/media/profile/horns.png" class="user_icon">
+        {% endif%}
       </a> |
       <a href="{% url 'mcaapp:logout' %}">logout</a>
     </div>
