@@ -27,6 +27,7 @@
     <h1>{{concert.api.artist.name}}</h1>
     <h2>Venue: {{concert.api.venue.name}}</h2>
     <h3>Date: {{concert.newDate}}</h3>
+    <p><em>added by: {{concert.user.user.username}} </em></p>
   </div>
   {% endfor %}
 
@@ -45,7 +46,7 @@
 
 <div class="body_copy">
 
-  <h1>My Concert App</h1>
+  <h1>Welcome to My Concert App!</h1>
   <h2></h2>
   <ul>
     <li>Search Concerts</li>
@@ -61,7 +62,8 @@
     <h1>{{concert.api.artist.name}}</h1>
     <h2>Venue: {{concert.api.venue.name}}</h2>
     <h3>Date: {{concert.newDate}}</h3>
-    <p>
+    <p><em>added by: {{concert.user.user.username}} </em></p>
+    <p>To Add this Concert:
     <a href="{% url 'mcaapp:login' %}">Login</a> or <a href="{% url 'mcaapp:register' %}">Register</a>
     </p>
   </div>

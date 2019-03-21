@@ -8,7 +8,13 @@
 <h1>My Concerts</h1>
 <!-- the following will show if the user has added concerts -->
 {% if concerts %}
-  {% for concert in concerts %}
+<h2>
+  ({{concerts|length}}
+  {% if concerts|length != 1%} concerts logged.)
+  {% else %} concert logged.)
+  {% endif %}
+</h2>
+{% for concert in concerts %}
   <div class="search_card">
     <h1>{{concert.api.artist.name}}</h1>
     <h2>{{concert.api.venue.name}} - {{concert.api.venue.city.name}}, {{concert.api.venue.city.stateCode}}</h2>
