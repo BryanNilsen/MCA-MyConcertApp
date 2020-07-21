@@ -3,15 +3,14 @@ body {
   /* background: rgb(15, 15, 15); */
   background: rgb(0, 0, 0);
   color: white;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-
 
 /* top banner */
 .banner {
   min-width: 400px;
   min-height: 250px;
-  background-image: url( '/static/mcaapp/images/ween-banner.jpg' );
+  background-image: url("/static/mcaapp/images/ween-banner.jpg");
   background-size: cover;
   margin-bottom: 20px;
 }
@@ -21,7 +20,7 @@ body {
   padding-right: 10px;
   background: rgb(41, 41, 41);
   /* border-bottom: 1px solid rgb(99, 0, 0); */
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 .user_nav a {
@@ -35,7 +34,6 @@ body {
   color: rgb(111, 245, 255);
   /* background-color: black; */
 }
-
 
 .top_nav {
   min-width: 750px;
@@ -56,10 +54,9 @@ body {
   margin: 10px;
   padding: 5px 10px;
   color: white;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1.0);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
   font-size: 2em;
 }
-
 
 /* top navigation */
 nav {
@@ -103,13 +100,13 @@ nav {
   color: white;
   border: 1px solid white;
   padding: 2px 5px;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 /* search results display */
 .search_card {
   margin: auto;
-  width: 80%;
+  /* width: 80%; */
   color: rgba(255, 255, 255, 0.9);
   border: 1px solid black;
   padding: 5px 10px;
@@ -120,9 +117,9 @@ nav {
 }
 
 .search {
-  margin:0px;
+  margin: 0px;
   padding: 3px 0px;
-  font-size: .9em;
+  font-size: 0.9em;
   border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -133,11 +130,10 @@ nav {
   color: rgba(255, 255, 255, 0.7);
 }
 
-
 .search input {
   border-radius: 4px;
   border: 2px solid rgb(65, 65, 65);
-  font-size: .9em;
+  font-size: 0.9em;
   background: rgba(255, 255, 255, 0.7);
   width: 90px;
   padding: 2px 5px;
@@ -147,21 +143,28 @@ nav {
 .search button {
   border-radius: 10px;
   background: rgb(44, 44, 44);
-  font-size: .9em;
+  font-size: 0.9em;
   color: rgba(255, 255, 255, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .search button:hover {
   color: rgba(101, 218, 226, 0.9);
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
 .search_card h1 {
   margin: 5px 0px;
   color: rgb(124, 209, 255);
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, .8);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
+}
+
+.details {
+  font-weight: normal;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgb(123, 209, 255);
 }
 .search_card h2 {
   margin: 5px 0px;
@@ -174,7 +177,7 @@ nav {
 .search_card button {
   border-radius: 10px;
   background: rgb(44, 44, 44);
-  font-size: .9em;
+  font-size: 0.9em;
   color: rgba(255, 255, 255, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.5);
 }
@@ -185,16 +188,13 @@ nav {
 }
 .search_card button:hover {
   color: rgba(101, 218, 226, 0.9);
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.9);
 }
-
-
 
 .img_border {
   border: 2px solid rgba(0, 0, 0, 0.5);
 }
-
 
 /* images */
 .user_icon {
@@ -206,15 +206,15 @@ nav {
 }
 
 .the_horns {
-  width:15px;
+  width: 15px;
   vertical-align: middle;
 }
 
 .the_horns_transparent {
-  width:15px;
-  opacity: .3;
+  width: 15px;
+  opacity: 0.3;
   vertical-align: middle;
-  filter: grayscale(1)
+  filter: grayscale(1);
 }
 .gallery_parent {
   display: flex;
@@ -227,7 +227,7 @@ nav {
   min-width: 100px;
   max-width: 400px;
   flex-grow: 1;
-  width: calc(100% * (1/5) - 20px);
+  width: calc(100% * (1 / 5) - 20px);
 }
 
 .gallery_child img {
@@ -245,9 +245,9 @@ nav {
   margin: 20px;
   padding: 10px;
   /* background: whitesmoke; */
-  background-image: url( '/static/mcaapp/images/linedpaper.png' );
+  background-image: url("/static/mcaapp/images/linedpaper.png");
   color: black;
-  font-family: 'Permanent Marker', cursive;
+  font-family: "Permanent Marker", cursive;
   font-size: 1.2em;
   text-align: center;
   box-shadow: 0px 0px 10px rgb(15, 15, 15);
@@ -256,9 +256,6 @@ nav {
 .setlist li {
   list-style: none;
 }
-
-
-
 
 /* ABOUT */
 .about {
@@ -274,17 +271,15 @@ nav {
   margin: 5px 0px;
 }
 
-
 /* FOOTER */
 .footer {
   margin-top: 10px;
   min-width: 450px;
   padding: 10px;
   background: rgb(41, 41, 41);
-  font-size: .9em;
+  font-size: 0.9em;
   color: rgb(150, 150, 150);
 }
-
 
 .footer a {
   color: rgb(150, 150, 150);
@@ -296,8 +291,6 @@ nav {
 .footer a:hover {
   color: rgb(111, 245, 255);
 }
-
-
 
 /* general styling */
 .flex {

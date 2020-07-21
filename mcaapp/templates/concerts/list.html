@@ -5,15 +5,16 @@
 
 {% if user.is_authenticated %}
 
-<h1>My Concerts</h1>
+<h1>My Concerts
 <!-- the following will show if the user has added concerts -->
 {% if concerts %}
-<h2>
+  <span class="details"> - 
   ({{concerts|length}}
-  {% if concerts|length != 1%} concerts logged.)
+  {% if concerts|length != 1%} concerts logged)
   {% else %} concert logged.)
+  </span>
   {% endif %}
-</h2>
+</h1>
 {% for concert in concerts %}
   <div class="search_card">
     <h1>{{concert.api.artist.name}}</h1>

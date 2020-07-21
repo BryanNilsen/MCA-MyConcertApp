@@ -1,15 +1,17 @@
 # MCA - My Concert App
 MCA - My Concert App was developed for concert-goers to quickly find concerts they've attended and add them to their account so they can easily view all of their shows, while adding the extra functionality to rate shows, add notes, and upload photos to personalize their experience.
 
+![MCA Web and Mobile View](./MCA-mobile-view.jpg)
+
 
 ## Technologies Used
 MCA was written in Python with the Django framework.
 
-<img src="/mcaapp/static/mcaapp/images/python-logo.svg" height="75" alt="Python Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/django-logo.svg" height="75" alt="Django Logo" margin-right="10px"/>
+<img src="./mcaapp/static/mcaapp/images/python-logo.svg" height="75" alt="Python Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/django-logo.svg" height="75" alt="Django Logo" margin-right="10px"/>
 
 MCA was developed using VSCode, AdobeXD, GitHub, SQLite, DB Browser, and Postman
 
-<img src="/mcaapp/static/mcaapp/images/vscode-logo.png" height="75" alt="VS Code Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/AdobeXD-logo.png" height="75" alt="Adobe XD Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/github-logo.png" height="75" alt="Github Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/sqlite-logo.png" height="75" alt="SQLite Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/dbbrowser-logo.png" height="75" alt="DB Browser Logo" margin-right="10px"/><img src="/mcaapp/static/mcaapp/images/postman-logo.png" height="75" alt="Postman Logo" margin-right="10px"/>
+<img src="./mcaapp/static/mcaapp/images/vscode-logo.png" height="75" alt="VS Code Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/AdobeXD-logo.png" height="75" alt="Adobe XD Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/github-logo.png" height="75" alt="Github Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/sqlite-logo.png" height="75" alt="SQLite Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/dbbrowser-logo.png" height="75" alt="DB Browser Logo" margin-right="10px"/><img src="./mcaapp/static/mcaapp/images/postman-logo.png" height="75" alt="Postman Logo" margin-right="10px"/>
 
 
 ## Instructions for Installing MCA
@@ -47,7 +49,7 @@ Once you've updated both the Secret Key and API key, there's two more final step
 
 ## MCA ERD - Entity Relationship Diagram
 
-![ERD](MCA-ERD.svg)
+![ERD](./MCA-ERD.svg)
 
 
 
